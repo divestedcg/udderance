@@ -1,0 +1,205 @@
+				<div class="card fluid" id="install" data-pagefind-ignore="all">
+					<h2 class="h2o">How to install</h2>
+					<p>You can "install" this page as a PWA and it will display a simplified version:<ul>
+							<li>Firefox on Android: Menu button > Add app to Home screen > Add to home screen. May be cached.</li>
+							<li>Chromium on Android: Menu button > Add to Home screen > Install > Install > Add to home screen. May be cached.</li>
+							<li>Safari on iOS: Share button > Add to Home Screen > Add. Must be repeated each update.</li>
+							<li>Special note for Safari: Lockdown must be disabled to allow WebSpeech API: Reader button > Page Menu > Lockdown Mode > Website settings for udderance.app > Disabled</li>
+						</ul></p>
+				</div>
+				<div class="card fluid" id="aac" data-pagefind-ignore="all">
+					<h2 class="h2o" id="aac_title">AAC</h2>
+					<p id="errorField"></p>
+					<noscript><p>WARNING: JavaScript is required!</p></noscript>
+					<div class="section" id="freeform">
+						<h3 class="h3o">Freeform Input</h3>
+						<input type="text" id="textInputFreeform" style="width: 100%;" placeholder="Type something..." enterkeyhint="go"></input><br>
+						<textarea id="textInputFreeformPrevious" aria-hidden="true" hidden></textarea><br>
+						<div class="centero">
+							<button onclick="speakFreeform()">Speak</button>
+							<button onclick="speakFreeformPrevious()" class="inverse">Repeat Previous</button>
+						</div>
+					</div>
+					<div class="section" id="phrases">
+						<h3 class="h3o">Phrases</h3>
+						<div class="collapse">
+							<input type="checkbox" id="collapse-section-common" aria-hidden="true" style="max-width:4em;" checked>
+							<label for="collapse-section-common" aria-hidden="true" style="max-width:8em;">Common</label>
+							<div style="max-height:100%;" id="commonPhraseButtons" class="centero"></div>
+						</div>
+						<div class="collapse">
+							<input type="checkbox" id="collapse-section-numbers" aria-hidden="true" style="max-width:4em;">
+							<label for="collapse-section-numbers" aria-hidden="true" style="max-width:8em;">Numbers</label>
+							<div style="max-height:100%;" id="numberPhraseButtons" class="centero"></div>
+						</div>
+						<div class="collapse">
+							<input type="checkbox" id="collapse-section-foods" aria-hidden="true" style="max-width:4em;">
+							<label for="collapse-section-foods" aria-hidden="true" style="max-width:8em;">Foods</label>
+							<div style="max-height:100%;" id="foodPhraseButtons" class="centero"></div>
+						</div>
+						<div class="collapse">
+							<input type="checkbox" id="collapse-section-snacks" aria-hidden="true" style="max-width:4em;">
+							<label for="collapse-section-snacks" aria-hidden="true" style="max-width:8em;">Snacks</label>
+							<div style="max-height:100%;" id="snackPhraseButtons" class="centero"></div>
+						</div>
+						<div class="collapse">
+							<input type="checkbox" id="collapse-section-drinks" aria-hidden="true" style="max-width:4em;">
+							<label for="collapse-section-drinks" aria-hidden="true" style="max-width:8em;">Drinks</label>
+							<div style="max-height:100%;" id="drinkPhraseButtons" class="centero"></div>
+						</div>
+						<div class="collapse">
+							<input type="checkbox" id="collapse-section-places" aria-hidden="true" style="max-width:4em;">
+							<label for="collapse-section-places" aria-hidden="true" style="max-width:8em;">Places</label>
+							<div style="max-height:100%;" id="placePhraseButtons" class="centero"></div>
+						</div>
+					</div>
+					<div class="section" id="log">
+						<h3 class="h3o">Log</h3>
+						<textarea id="textLog" rows="4" style="width: 100%;" placeholder="History will appear here..." disabled></textarea><br>
+					</div>
+					<div class="section" id="options">
+						<h3 class="h3o">Options</h3>
+						<label for="voice">Voice: </label>
+						<select name="voice" id="voice"></select>
+					</div>
+				</div>
+<script>
+	function adjustHeight(el){
+		/* Credit (CC BY-SA 3.0): https://stackoverflow.com/a/17259991 */
+		el.style.height = (el.scrollHeight > el.clientHeight) ? (el.scrollHeight)+"px" : "60px";
+	}
+
+	/* Credit (CC0): https://github.com/HadrienGardeur/web-speech-recommended-voices/tree/main/json/filters */
+	const ignoreVoices = [
+				"Albert", "Bad News", "Bahh", "Bells", "Boing", "Bubbles", "Cellos", "Good News", "Jester", "Organ", "Superstar", "Trinoids", "Whisper", "Wobble", "Zarvox",
+				"Eddy", "Flo", "Grandma", "Grandpa", "Jacques", "Reed", "Rocko", "Sandy", "Shelley", "Fred", "Junior", "Kathy", "Ralph"];
+
+	function loadVoices() {
+		/* Credit: https://codepen.io/matt-west/pen/DpmMgE */
+		removeChildren(document.getElementById('voice'), false);
+		var option = document.createElement('option');
+		option.value = "default";
+		option.innerHTML = "Default";
+		document.getElementById('voice').appendChild(option);
+		var voices = speechSynthesis.getVoices();
+		var numAdded = 0;
+		voices.forEach(function(voice, i) {
+			if (voice.lang === navigator.language) {
+				if(ignoreVoices.includes(voice.name)) return;
+				var option = document.createElement('option');
+				option.value = voice.name;
+				option.innerHTML = voice.name;
+				document.getElementById('voice').appendChild(option);
+				numAdded++;
+			}
+		});
+		if (numAdded === 0) {
+			voices.forEach(function(voice, i) {
+				if (ignoreVoices.includes(voice.name)) return;
+				if (voice.lang === navigator.language) {
+					var option = document.createElement('option');
+					option.value = voice.name;
+					option.innerHTML = voice.name + "(" + voice.lang + ")";
+					document.getElementById('voice').appendChild(option);
+				}
+			});
+		}
+	}
+
+	function speakFreeform() {
+		const text = document.getElementById('textInputFreeform').value.trim();
+		if (text.length == 0) return;
+		document.getElementById('textInputFreeformPrevious').value = text;
+		document.getElementById('textInputFreeform').value = "";
+		document.getElementById('textInputFreeform').focus();
+		speakText(text);
+	}
+
+	function speakFreeformPrevious() {
+		speakText(document.getElementById('textInputFreeformPrevious').value);
+	}
+
+	function speakText(text) {
+		text = text.trim();
+		if (text.length == 0) return;
+		const previousLog = document.getElementById('textLog').value;
+		document.getElementById('textLog').value = new Date().toLocaleTimeString() + " - " + text + "\n" + previousLog;
+		adjustHeight(document.getElementById('textLog'));
+		const utterance = new SpeechSynthesisUtterance(text);
+		if (document.getElementById('voice').value != "default") {
+			utterance.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == document.getElementById('voice').value; })[0];
+		}
+		window.speechSynthesis.speak(utterance);
+	}
+
+	function removeChildren(element, andTop) {
+		var children = element.childNodes;
+		for(let i = 0; i < children.length; i++) {
+			children[i].remove();
+		}
+		if (andTop) element.remove();
+	}
+
+	function loadPhrasesIntoBlock(block, phrases) {
+		for (let i = 0; i < phrases.length; i++) {
+			if (phrases[i].startsWith("CAT:")) {
+				document.getElementById(block).innerHTML += phrases[i].substring(4) + ": ";
+			} else if (phrases[i] === "[SEP]") {
+				document.getElementById(block).innerHTML += "<br>";
+			} else {
+				document.getElementById(block).innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + phrases[i] + "</button>";
+			}
+		}
+	}
+
+	const commonPhrases = ["yes", "no", "okay", "[SEP]",
+				"I don't know", "I don't understand", "[SEP]",
+				"what?", "why?", "how?", "[SEP]",
+				"when?", "which?", "where?", "[SEP]",
+				"good", "bad", "stop!", "[SEP]",
+				"hello", "goodbye", "happy " + new Date().toLocaleString(document.language, {weekday:'long'}), "[SEP]",
+				"please", "thank you", "[SEP]",
+				"yesterday", "today", "tomorrow", "[SEP]",
+				"day", "night", "morning", "afternoon", "[SEP]",
+				"I am hungry", "I am thirsty", "I am tired", "I need the bathroom", "[SEP]"
+				];
+	const numberPhrases = ["0", "1", "2", "3", "4", "[SEP]", "5", "6", "7", "8", "9"];
+	const foodPhrases = ["I want", "I need", "[SEP]", "biscuits", "bread", "broccoli", "burger", "cereal", "chicken", "corn", "eggs", "french fries", "grilled cheese", "hash browns", "hot dogs", "mac and cheese", "pancakes", "pasta", "peanut butter and jelly", "pizza", "potatoes", "ramen", "rice", "sandwich", "sausage", "soup", "string beans", "toast", "waffles"];
+	const snackPhrases = ["I want", "I need", "[SEP]", "brownies", "cake", "candy", "chips", "cookies", "crackers", "donuts", "ice cream", "muffins", "nuts", "pie", "pretzels"];
+	const drinkPhrases = ["I want", "I need", "[SEP]", "water", "juice", "coffee", "hot cocoa", "milk", "soda", "milkshake", "a straw"];
+	const placePhrases = ["outside", "inside", "home", "front yard", "back yard", "patio", "garage", "grocery store", "gas station", "hospital", "office", "school", "bank", "ATM", "gym"];
+
+	document.addEventListener("DOMContentLoaded", function(event){
+		document.getElementById('textInputFreeform').addEventListener("keypress", function (e) {
+			/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
+			if (e.code === "Enter") {
+				speakFreeform();
+				document.getElementById('textInputFreeform').value = "";
+			}
+		});
+
+		if (window.matchMedia('(display-mode: standalone)').matches) {
+			/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/41749865 */
+			removeChildren(document.getElementById('real_header'), true);
+			removeChildren(document.getElementById('real_footer'), true);
+			document.getElementById('install').remove();
+			document.getElementById('aac_title').remove();
+		}
+
+		if (window['speechSynthesis'] === undefined) {
+			document.getElementById('errorField').innerText = "ERROR: TTS API unavailable!";
+		}
+
+		loadVoices();
+		window.speechSynthesis.onvoiceschanged = function(e) {
+			loadVoices();
+		};
+
+		loadPhrasesIntoBlock('commonPhraseButtons', commonPhrases);
+		loadPhrasesIntoBlock('numberPhraseButtons', numberPhrases);
+		loadPhrasesIntoBlock('foodPhraseButtons', foodPhrases);
+		loadPhrasesIntoBlock('snackPhraseButtons', snackPhrases);
+		loadPhrasesIntoBlock('drinkPhraseButtons', drinkPhrases);
+		loadPhrasesIntoBlock('placePhraseButtons', placePhrases);
+	});
+</script>

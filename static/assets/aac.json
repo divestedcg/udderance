@@ -1,0 +1,13 @@
+{
+  "name": "Udderance AAC",
+  "display": "standalone",
+  "start_url": "https://udderance.app/pages/aac",
+  "icons": [
+    {
+      "src": "/images/favicon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
+
