@@ -18,6 +18,9 @@
 						<div class="centero">
 							<button onclick="speakFreeform()">Speak</button>
 							<button onclick="speakFreeformPrevious()" class="inverse">Repeat Previous</button>
+							<br>
+							<label for="speakSpace">Speak on space instead of enter: </label>
+							<input type="checkbox" name="speakSpace" id="speakSpace"></input>
 						</div>
 					</div>
 					<div class="section" id="phrases">
@@ -112,6 +115,7 @@
 		document.getElementById('textInputFreeformPrevious').value = text;
 		document.getElementById('textInputFreeform').value = "";
 		document.getElementById('textInputFreeform').focus();
+		/* document.getElementById("textInputFreeform").scrollIntoView(); */
 		speakText(text);
 	}
 
@@ -172,7 +176,7 @@
 	document.addEventListener("DOMContentLoaded", function(event){
 		document.getElementById('textInputFreeform').addEventListener("keypress", function (e) {
 			/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
-			if (e.code === "Enter") {
+			if (e.code === "Enter" || (e.code === "Space" && document.getElementById('speakSpace').checked)) {
 				speakFreeform();
 				document.getElementById('textInputFreeform').value = "";
 			}
