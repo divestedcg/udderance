@@ -162,6 +162,7 @@
 	let audioCtx = null;
 	Module = {};
 	let sherpaLoaded = false;
+	const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent); /* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/23522755 */
 	const wasmSupported = (() => {
 		try {
 			if (typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function") {
@@ -173,7 +174,7 @@
 		return false;
 	})();
 	function initSherpa() {
-		if (!sherpaLoaded && wasmSupported) {
+		if (!sherpaLoaded && wasmSupported && !isSafari) {
 			document.getElementById('sherpaStatus').textContent = "Loading";
 
 			loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-tts.js", null, "sha384-olKOSYDQyGeqeF0Icur2481IST25MDaalHcguSZIYEn+2YszWgzTGl7jdEXU7f7O");
@@ -308,7 +309,7 @@
 		loadPhrasesIntoBlock('drinkPhraseButtons', drinkPhrases);
 		loadPhrasesIntoBlock('placePhraseButtons', placePhrases);
 
-		if (!wasmSupported) {
+		if (!wasmSupported || isSafari) {
 			document.getElementById('useSherpa').disabled = true;
 		}
 	});
