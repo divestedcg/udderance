@@ -16,11 +16,13 @@
 						<input type="text" id="textInputFreeform" style="width: 100%;" placeholder="Type something..." enterkeyhint="go"></input><br>
 						<textarea id="textInputFreeformPrevious" aria-hidden="true" hidden></textarea><br>
 						<div class="centero">
-							<button onclick="speakFreeform()">Speak</button>
+							<button onclick="speakFreeform()" id="speakButton">Speak</button>
 							<button onclick="speakFreeformPrevious()" class="inverse">Repeat Previous</button>
 							<br>
 							<label for="speakSpace">Speak on space instead of enter: </label>
 							<input type="checkbox" name="speakSpace" id="speakSpace"></input>
+							<br>
+							<p id="sherpaStatus" hidden></p>
 						</div>
 					</div>
 					<div class="section" id="phrases">
@@ -64,12 +66,25 @@
 						<h3 class="h3o">Options</h3>
 						<label for="voice">Voice: </label>
 						<select name="voice" id="voice"></select>
+						<hr>
+						<p>SherpaOnnx is available as an alternative to the system's native TTS backend. It requires a 100MB database download (which may not get cached) and WASM to be enabled. Longer prompts can be slow to generate. 904 voice variants are available.</p>
+						<label for="useSherpa">Use Sherpa: </label>
+						<input type="checkbox" name="useSherpa" id="useSherpa"></input>
+						<br>
+						<label for="sherpaSpeakerID">Sherpa Speaker ID: </label>
+						<input type="number" name="sherpaSpeakerID" id="sherpaSpeakerID" min="0" max="904" value="0"></input>
+						<br>
+						<label for="sherpaSpeed">Sherpa Speed: </label>
+						<input type="number" name="sherpaSpeed" id="sherpaSpeed" min="0.4" max="3.5" step="0.1" value="1.0"></input>
 					</div>
 				</div>
 <script>
 	function adjustHeight(el){
 		/* Credit (CC BY-SA 3.0): https://stackoverflow.com/a/17259991 */
 		el.style.height = (el.scrollHeight > el.clientHeight) ? (el.scrollHeight)+"px" : "60px";
+		if(el.scrollHeight > 400) {
+			el.style.height = "400px";
+		}
 	}
 
 	/* Credit (CC0): https://github.com/HadrienGardeur/web-speech-recommended-voices/tree/main/json/filters */
@@ -129,11 +144,82 @@
 		const previousLog = document.getElementById('textLog').value;
 		document.getElementById('textLog').value = new Date().toLocaleTimeString() + " - " + text + "\n" + previousLog;
 		adjustHeight(document.getElementById('textLog'));
-		const utterance = new SpeechSynthesisUtterance(text);
-		if (document.getElementById('voice').value != "default") {
-			utterance.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == document.getElementById('voice').value; })[0];
+		speakTextReal(text);
+	}
+
+	function loadExternalJS(url, callAfterLoad, integrity) {
+		var tmpJS = document.createElement('script');
+		tmpJS.type = "text/javascript";
+		tmpJS.src = url;
+		if(integrity !== undefined) {
+			tmpJS.integrity = integrity;
 		}
-		window.speechSynthesis.speak(utterance);
+		tmpJS.onload = callAfterLoad;
+		document.body.appendChild(tmpJS);
+	}
+
+	let tts = null;
+	let audioCtx = null;
+	Module = {};
+	let sherpaLoaded = false;
+	function initSherpa() {
+		if (!sherpaLoaded) {
+			document.getElementById('speakButton').disabled = true;
+
+			document.getElementById('sherpaStatus').textContent = "Loading";
+
+			loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-tts.js");
+			loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.js");
+
+			Module.locateFile = function(path, scriptDirectory = '') {
+				console.log(`path: ${path}, scriptDirectory: ${scriptDirectory}`);
+				return scriptDirectory + path;
+			};
+
+			Module.setStatus = function(status) {
+				console.log(`status ${status}`);
+				document.getElementById('sherpaStatus').textContent = status;
+			};
+
+			Module.onRuntimeInitialized = function() {
+				console.log('Initializing tts');
+				document.getElementById('sherpaStatus').textContent = "Initializing";
+				tts = createOfflineTts(Module)
+			};
+
+			document.getElementById('speakButton').disabled = false;
+			sherpaLoaded = true;
+		}
+	}
+
+	function speakTextReal(textReal) {
+		if (document.getElementById('useSherpa').checked && sherpaLoaded) {
+			let speakerId = parseInt(document.getElementById('sherpaSpeakerID').value);
+			let speedSet = parseInt(document.getElementById('sherpaSpeed').value);
+
+			let audio = tts.generate({text : textReal, sid : speakerId, speed : speedSet});
+
+			if (!audioCtx) {
+				audioCtx = new AudioContext({sampleRate : tts.sampleRate});
+			}
+
+			const buffer = audioCtx.createBuffer(1, audio.samples.length, tts.sampleRate);
+
+			const ptr = buffer.getChannelData(0);
+			for (let i = 0; i < audio.samples.length; i++) {
+				ptr[i] = audio.samples[i];
+			}
+			const source = audioCtx.createBufferSource();
+			source.buffer = buffer;
+			source.connect(audioCtx.destination);
+			source.start();
+		} else {
+			const utterance = new SpeechSynthesisUtterance(textReal);
+			if (document.getElementById('voice').value != "default") {
+				utterance.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == document.getElementById('voice').value; })[0];
+			}
+			window.speechSynthesis.speak(utterance);
+		}
 	}
 
 	function removeChildren(element, andTop) {
@@ -181,6 +267,15 @@
 				document.getElementById('textInputFreeform').value = "";
 			}
 		});
+
+		document.getElementById('useSherpa').onclick = function() {
+			initSherpa();
+			if (document.getElementById('useSherpa').checked) {
+				document.getElementById('sherpaStatus').hidden = false;
+			} else {
+				document.getElementById('sherpaStatus').hidden = true;
+			}
+		}
 
 		if (window.matchMedia('(display-mode: standalone)').matches) {
 			/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/41749865 */

@@ -47,7 +47,7 @@ function minifyWhitespace($buffer) {
 
 	return $buffer;
 }
-ob_start("minifyWhitespace");
+//ob_start("minifyWhitespace");
 
 //Page handling
 $page = $argv[1];
