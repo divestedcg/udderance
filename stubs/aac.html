@@ -16,7 +16,7 @@
 						<input type="text" id="textInputFreeform" style="width: 100%;" placeholder="Type something..." enterkeyhint="go"></input><br>
 						<textarea id="textInputFreeformPrevious" aria-hidden="true" hidden></textarea><br>
 						<div class="centero">
-							<button onclick="speakFreeform()" id="speakButton">Speak</button>
+							<button onclick="speakFreeform()">Speak</button>
 							<button onclick="speakFreeformPrevious()" class="inverse">Repeat Previous</button>
 							<br>
 							<label for="speakSpace">Speak on space instead of enter: </label>
@@ -164,12 +164,10 @@
 	let sherpaLoaded = false;
 	function initSherpa() {
 		if (!sherpaLoaded) {
-			document.getElementById('speakButton').disabled = true;
-
 			document.getElementById('sherpaStatus').textContent = "Loading";
 
-			loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-tts.js");
-			loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.js");
+			loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-tts.js", null, "sha384-olKOSYDQyGeqeF0Icur2481IST25MDaalHcguSZIYEn+2YszWgzTGl7jdEXU7f7O");
+			loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.js", null, "sha384-eEpXm74uTowjM4I/C5wWNM/A85zJnJGYTIC6LPHOUjGS2aqEK4wvtHD0Cav8xaEt");
 
 			Module.locateFile = function(path, scriptDirectory = '') {
 				console.log(`path: ${path}, scriptDirectory: ${scriptDirectory}`);
@@ -187,7 +185,6 @@
 				tts = createOfflineTts(Module)
 			};
 
-			document.getElementById('speakButton').disabled = false;
 			sherpaLoaded = true;
 		}
 	}
