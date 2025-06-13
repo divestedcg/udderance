@@ -44,7 +44,7 @@
 						<input type="checkbox" name="boardAutoCollapse" id="boardAutoCollapse" checked>
 						<br>
 						<label for="voice">Voice: </label>
-						<select name="voice" id="voice"></select>
+						<select name="voice" id="voice" onchange="updateVoice()"></select>
 						<hr>
 						<p>Sherpa-Onnx is available as an alternative to the system's native TTS backend. It requires a 110MB download (program + vits-piper-en_US models). Longer prompts can be slow to generate. 904 voice variants are available. It requires WASM, works best in Chromium, doesn't get cached in Firefox, and does not work in Safari.</p>
 						<label for="useSherpa">Use Sherpa: </label>

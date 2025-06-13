@@ -15,32 +15,61 @@ const ignoreVoices = [
 let numVoicesAdded = 0;
 function loadVoices() {
 	removeChildren(document.getElementById('voice'), false);
-	var option = document.createElement('option');
-	option.value = "default";
-	option.innerHTML = "Default";
-	document.getElementById('voice').appendChild(option);
+
+	if (!checkIfVoiceInList("Default")) {
+		var option = document.createElement('option');
+		option.value = "default";
+		option.innerHTML = "Default";
+		document.getElementById('voice').appendChild(option);
+	}
+
+	populateVoices(true); //Frontload the primary language
+	populateVoices(false);
+
+	if (numVoicesAdded > 0 && document.getElementById('errorField').innerText.includes("unavailable")) {
+		document.getElementById('errorField').innerText = "";
+	}
+}
+
+function populateVoices(languageMatch) {
 	var voices = speechSynthesis.getVoices();
-	/* TODO: simplify this frontload */
+	//prefer primary language
 	voices.forEach(function(voice, i) {
-		if (ignoreVoices.includes(voice.name)) return;
 		if (voice.lang === navigator.language) {
-			var option = document.createElement('option');
-			option.value = voice.name;
-			option.innerHTML = voice.name + "(" + voice.lang + ")";
-			document.getElementById('voice').appendChild(option);
-			numVoicesAdded++;
+			addVoice(voice.name, voice.lang);
 		}
 	});
+	//then base language
 	voices.forEach(function(voice, i) {
-		if (ignoreVoices.includes(voice.name)) return;
-		if (voice.lang !== navigator.language) {
-			var option = document.createElement('option');
-			option.value = voice.name;
-			option.innerHTML = voice.name + "(" + voice.lang + ")";
-			document.getElementById('voice').appendChild(option);
-			numVoicesAdded++;
+		if (voice.lang.startsWith(navigator.language.split("-")[0])) {
+			addVoice(voice.name, voice.lang);
 		}
 	});
+	//then other languages
+	voices.forEach(function(voice, i) {
+		addVoice(voice.name, voice.lang);
+	});
+}
+
+function addVoice(name, lang) {
+	var fullName = name + " (" + lang + ")";
+	if (ignoreVoices.includes(name)) return;
+	if (checkIfVoiceInList(fullName)) return;
+	var option = document.createElement('option');
+	option.value = name;
+	option.innerHTML = fullName;
+	document.getElementById('voice').appendChild(option);
+	numVoicesAdded++;
+}
+
+function checkIfVoiceInList(fullName) {
+	var existingVoices = document.getElementById('voice').children;
+	for(let i = 0; i < existingVoices.length; i++) {
+		if (existingVoices[i].innerHTML === fullName) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function speakFreeform() {
@@ -273,6 +302,14 @@ function handleSherpaToggle() {
 	}
 }
 
+function updateVoice() {
+	localStorage.setItem('voice', document.getElementById("voice").selectedIndex);
+}
+
+function loadLastVoice() {
+	document.getElementById("voice").selectedIndex = localStorage.getItem('voice') || "0";
+}
+
 document.addEventListener("DOMContentLoaded", function(event){
 	document.getElementById('textInputFreeform').addEventListener("keypress", function (e) {
 		/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
@@ -290,6 +327,15 @@ document.addEventListener("DOMContentLoaded", function(event){
 		document.getElementById('aac_title').remove();
 	}
 
+	loadVoices();
+	/* window.speechSynthesis.onvoiceschanged = function(e) {
+		loadVoices();
+	}; */
+	loadLastVoice();
+
+	loadBoardPresets();
+	loadLastBoard();
+
 	if (window['speechSynthesis'] === undefined || numVoicesAdded === 0) {
 		if(wasmSupported && !isSafari) {
 			document.getElementById('errorField').innerText = "Warning: Speech Synthesis API is unavailable! Please use Sherpa instead.";
@@ -297,14 +343,6 @@ document.addEventListener("DOMContentLoaded", function(event){
 			document.getElementById('errorField').innerText = "ERROR: Speech Synthesis API and Sherpa are both unavailable!";
 		}
 	}
-
-	loadVoices();
-	window.speechSynthesis.onvoiceschanged = function(e) {
-		loadVoices();
-	};
-
-	loadBoardPresets();
-	loadLastBoard();
 
 	if (!wasmSupported || isSafari) {
 		document.getElementById('useSherpa').disabled = true;
