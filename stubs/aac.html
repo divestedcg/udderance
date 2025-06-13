@@ -36,6 +36,8 @@
 					</div>
 					<div class="section" id="options">
 						<h3 class="h3o">Options</h3>
+						<label for="boardPreset">Board Preset: </label>
+						<select name="boardPreset" id="boardPreset"></select>
 						<label for="voice">Voice: </label>
 						<select name="voice" id="voice"></select>
 						<hr>
@@ -217,7 +219,7 @@
 		var phrasesInner = document.createElement('div');
 		phrasesInner.id = "phrasesInner";
 
-		for(let i = 0; i < phrases.length; i++) {
+		for(let i = 1; i < phrases.length; i++) {
 			var name = phrases[i][0];
 			var category = name.toLowerCase();
 			var collapseBlock = document.createElement('div');
@@ -277,6 +279,7 @@
 		}
 	}
 
+	/* START OF BOARD PRESET: Default */
 	const phrasesDefaultCommon = ["Common", "yes", "no", "okay", "[SEP]",
 				"I don't know", "I don't understand", "[SEP]",
 				"what?", "why?", "how?", "[SEP]",
@@ -293,8 +296,35 @@
 	const phrasesDefaultSnacks = ["Snacks", "I want", "I need", "[SEP]", "brownies", "cake", "candy", "chips", "cookies", "crackers", "donuts", "ice cream", "muffins", "nuts", "pie", "pretzels"];
 	const phrasesDefaultDrinks = ["Drinks", "I want", "I need", "[SEP]", "water", "juice", "coffee", "hot cocoa", "milk", "soda", "milkshake", "a straw"];
 	const phrasesDefaultPlaces = ["Places", "outside", "inside", "home", "front yard", "back yard", "patio", "garage", "grocery store", "gas station", "hospital", "office", "school", "bank", "ATM", "gym"];
+	const phrasesDefault = ["Default", phrasesDefaultCommon, phrasesDefaultNumbers, phrasesDefaultFoods, phrasesDefaultSnacks, phrasesDefaultDrinks, phrasesDefaultPlaces];
+	/* END OF BOARD PRESET: Default */
 
-	const phrasesDefault = [phrasesDefaultCommon, phrasesDefaultNumbers, phrasesDefaultFoods, phrasesDefaultSnacks, phrasesDefaultDrinks, phrasesDefaultPlaces];
+	const boardPresets = [phrasesDefault];
+
+	function loadBoardPresets() {
+		removeChildren(document.getElementById('boardPreset'), false);
+
+		for(let i = 0; i < boardPresets.length; i++) {
+			var option = document.createElement('option');
+			option.value = boardPresets[i][0].toLowerCase();
+			option.innerHTML = boardPresets[i][0];
+			option.onclick = function() {
+				loadPhrases(boardPresets[i]);
+				localStorage.setItem('boardPreset', boardPresets[i][0]);
+			}
+			document.getElementById('boardPreset').appendChild(option);
+		}
+	}
+
+	function loadLastBoard() {
+		var boardPreset = localStorage.getItem('boardPreset') || "Default";
+		for(let i = 0; i < boardPresets.length; i++) {
+			if (boardPresets[i][0] === boardPreset) {
+				loadPhrases(boardPresets[i]);
+				document.getElementById("boardPreset").selectedIndex = i;
+			}
+		}
+	}
 
 	document.addEventListener("DOMContentLoaded", function(event){
 		document.getElementById('textInputFreeform').addEventListener("keypress", function (e) {
@@ -331,7 +361,8 @@
 			loadVoices();
 		};
 
-		loadPhrases(phrasesDefault);
+		loadBoardPresets();
+		loadLastBoard();
 
 		if (!wasmSupported || isSafari) {
 			document.getElementById('useSherpa').disabled = true;
