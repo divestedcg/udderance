@@ -372,6 +372,7 @@
 	function updateBoardPreset(value) {
 		loadPhrases(boardPresets[value]);
 		localStorage.setItem('boardPreset', boardPresets[value][0]);
+		document.getElementById("collapse-phrases-common").scrollIntoView();
 	}
 
 	function loadLastBoard() {
