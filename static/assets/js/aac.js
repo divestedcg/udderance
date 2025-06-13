@@ -14,24 +14,16 @@ const ignoreVoices = [
 /* Credit: https://codepen.io/matt-west/pen/DpmMgE */
 let numVoicesAdded = 0;
 function loadVoices() {
+	/* TODO make this more reliable */
 	removeChildren(document.getElementById('voice'), false);
 
-	if (!checkIfVoiceInList("Default")) {
+	if (!checkIfVoiceInList("default")) {
 		var option = document.createElement('option');
 		option.value = "default";
 		option.innerHTML = "Default";
 		document.getElementById('voice').appendChild(option);
 	}
 
-	populateVoices(true); //Frontload the primary language
-	populateVoices(false);
-
-	if (numVoicesAdded > 0 && document.getElementById('errorField').innerText.includes("unavailable")) {
-		document.getElementById('errorField').innerText = "";
-	}
-}
-
-function populateVoices(languageMatch) {
 	var voices = speechSynthesis.getVoices();
 	//prefer primary language
 	voices.forEach(function(voice, i) {
@@ -49,23 +41,26 @@ function populateVoices(languageMatch) {
 	voices.forEach(function(voice, i) {
 		addVoice(voice.name, voice.lang);
 	});
+
+	if (numVoicesAdded > 0 && document.getElementById('errorField').innerText.includes("unavailable")) {
+		document.getElementById('errorField').innerText = "";
+	}
 }
 
 function addVoice(name, lang) {
-	var fullName = name + " (" + lang + ")";
 	if (ignoreVoices.includes(name)) return;
-	if (checkIfVoiceInList(fullName)) return;
+	if (checkIfVoiceInList(name)) return;
 	var option = document.createElement('option');
 	option.value = name;
-	option.innerHTML = fullName;
+	option.innerHTML = name + " (" + lang + ")";
 	document.getElementById('voice').appendChild(option);
 	numVoicesAdded++;
 }
 
-function checkIfVoiceInList(fullName) {
+function checkIfVoiceInList(name) {
 	var existingVoices = document.getElementById('voice').children;
 	for(let i = 0; i < existingVoices.length; i++) {
-		if (existingVoices[i].innerHTML === fullName) {
+		if (existingVoices[i].value === name) {
 			return true;
 		}
 	}
@@ -259,6 +254,7 @@ function loadPhrases(phrases) {
 						}
 					}
 				}
+				/* TODO fix this on Chromium */
 				if (this.checked) {
 					this.scrollIntoView();
 				}
@@ -313,6 +309,7 @@ function loadLastVoice() {
 document.addEventListener("DOMContentLoaded", function(event){
 	document.getElementById('textInputFreeform').addEventListener("keypress", function (e) {
 		/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
+		/* TODO fix this on Android */
 		if (e.code === "Enter" || (e.code === "Space" && document.getElementById('speakSpace').checked)) {
 			speakFreeform();
 			document.getElementById('textInputFreeform').value = "";
@@ -328,7 +325,8 @@ document.addEventListener("DOMContentLoaded", function(event){
 	}
 
 	loadVoices();
-	/* window.speechSynthesis.onvoiceschanged = function(e) {
+	/* TODO fixup this special Chromium handling
+	window.speechSynthesis.onvoiceschanged = function(e) {
 		loadVoices();
 	}; */
 	loadLastVoice();
