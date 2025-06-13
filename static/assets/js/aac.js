@@ -95,6 +95,10 @@ function clearLog(){
 	document.getElementById('textLog').value = "";
 }
 
+function copyLogToClipboard() {
+	 navigator.clipboard.writeText(document.getElementById('textLog').value);
+}
+
 function loadExternalJS(url, callAfterLoad, integrity) {
 	let tmpJS = document.createElement('script');
 	tmpJS.type = "text/javascript";
