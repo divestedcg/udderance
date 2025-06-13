@@ -1,11 +1,12 @@
 				<div class="card fluid" id="install" data-pagefind-ignore="all">
 					<h2 class="h2o">How to install</h2>
-					<p>You can "install" this page as a PWA and it will display a simplified version:<ul>
-							<li>Firefox on Android: Menu button > Add app to Home screen > Add to home screen. May be cached.</li>
-							<li>Chromium on Android: Menu button > Add to Home screen > Install > Install > Add to home screen. May be cached.</li>
-							<li>Safari on iOS: Share button > Add to Home Screen > Add. Must be repeated each update.</li>
-							<li>Special note for Safari: Lockdown must be disabled to allow WebSpeech API: Reader button > Page Menu > Lockdown Mode > Website settings for udderance.app > Disabled</li>
-						</ul></p>
+					<p>You can "install" this page as a PWA and it will display a simplified version:</p>
+					<ul>
+						<li>Firefox on Android: Menu button > Add app to Home screen > Add to home screen. May be cached.</li>
+						<li>Chromium on Android: Menu button > Add to Home screen > Install > Install > Add to home screen. May be cached.</li>
+						<li>Safari on iOS: Share button > Add to Home Screen > Add. Must be repeated each update.</li>
+						<li>Special note for Safari: Lockdown must be disabled to allow WebSpeech API: Reader button > Page Menu > Lockdown Mode > Website settings for udderance.app > Disabled</li>
+					</ul>
 				</div>
 				<div class="card fluid" id="aac" data-pagefind-ignore="all">
 					<h2 class="h2o" id="aac_title">AAC</h2>
@@ -13,14 +14,14 @@
 					<noscript><p>WARNING: JavaScript is required!</p></noscript>
 					<div class="section" id="freeform">
 						<h3 class="h3o">Freeform Input</h3>
-						<input type="text" id="textInputFreeform" style="width: 100%;" placeholder="Type something..." enterkeyhint="go"></input><br>
+						<input type="text" id="textInputFreeform" style="width: 100%;" placeholder="Type something..." enterkeyhint="go"><br>
 						<textarea id="textInputFreeformPrevious" aria-hidden="true" hidden></textarea><br>
 						<div class="centero">
 							<button onclick="speakFreeform()">Speak</button>
 							<button onclick="speakFreeformPrevious()" class="inverse">Repeat Previous</button>
 							<br>
 							<label for="speakSpace">Speak on space instead of enter: </label>
-							<input type="checkbox" name="speakSpace" id="speakSpace"></input>
+							<input type="checkbox" name="speakSpace" id="speakSpace">
 							<br>
 							<p id="sherpaStatus" hidden></p>
 						</div>
@@ -69,13 +70,13 @@
 						<hr>
 						<p>SherpaOnnx is available as an alternative to the system's native TTS backend. It requires a 100MB database download (which may not get cached) and WASM to be enabled. Longer prompts can be slow to generate. 904 voice variants are available.</p>
 						<label for="useSherpa">Use Sherpa: </label>
-						<input type="checkbox" name="useSherpa" id="useSherpa"></input>
+						<input type="checkbox" name="useSherpa" id="useSherpa">
 						<br>
 						<label for="sherpaSpeakerID">Sherpa Speaker ID: </label>
-						<input type="number" name="sherpaSpeakerID" id="sherpaSpeakerID" min="0" max="904" value="0"></input>
+						<input type="number" name="sherpaSpeakerID" id="sherpaSpeakerID" min="0" max="904" value="0">
 						<br>
 						<label for="sherpaSpeed">Sherpa Speed: </label>
-						<input type="number" name="sherpaSpeed" id="sherpaSpeed" min="0.4" max="3.5" step="0.1" value="1.0"></input>
+						<input type="number" name="sherpaSpeed" id="sherpaSpeed" min="0.4" max="3.5" step="0.1" value="1.0">
 					</div>
 				</div>
 <script>
