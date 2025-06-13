@@ -29,32 +29,32 @@
 					<div class="section" id="phrases">
 						<h3 class="h3o">Phrases</h3>
 						<div class="collapse">
-							<input type="checkbox" id="collapse-section-common" aria-hidden="true" style="max-width:4em;" checked>
+							<input type="checkbox" class="phraseCollapse" id="collapse-section-common" aria-hidden="true" style="max-width:4em;" checked>
 							<label for="collapse-section-common" aria-hidden="true" style="max-width:8em;">Common</label>
 							<div style="max-height:100%;" id="commonPhraseButtons" class="centero"></div>
 						</div>
 						<div class="collapse">
-							<input type="checkbox" id="collapse-section-numbers" aria-hidden="true" style="max-width:4em;">
+							<input type="checkbox" class="phraseCollapse" id="collapse-section-numbers" aria-hidden="true" style="max-width:4em;">
 							<label for="collapse-section-numbers" aria-hidden="true" style="max-width:8em;">Numbers</label>
 							<div style="max-height:100%;" id="numberPhraseButtons" class="centero"></div>
 						</div>
 						<div class="collapse">
-							<input type="checkbox" id="collapse-section-foods" aria-hidden="true" style="max-width:4em;">
+							<input type="checkbox" class="phraseCollapse" id="collapse-section-foods" aria-hidden="true" style="max-width:4em;">
 							<label for="collapse-section-foods" aria-hidden="true" style="max-width:8em;">Foods</label>
 							<div style="max-height:100%;" id="foodPhraseButtons" class="centero"></div>
 						</div>
 						<div class="collapse">
-							<input type="checkbox" id="collapse-section-snacks" aria-hidden="true" style="max-width:4em;">
+							<input type="checkbox" class="phraseCollapse" id="collapse-section-snacks" aria-hidden="true" style="max-width:4em;">
 							<label for="collapse-section-snacks" aria-hidden="true" style="max-width:8em;">Snacks</label>
 							<div style="max-height:100%;" id="snackPhraseButtons" class="centero"></div>
 						</div>
 						<div class="collapse">
-							<input type="checkbox" id="collapse-section-drinks" aria-hidden="true" style="max-width:4em;">
+							<input type="checkbox" class="phraseCollapse" id="collapse-section-drinks" aria-hidden="true" style="max-width:4em;">
 							<label for="collapse-section-drinks" aria-hidden="true" style="max-width:8em;">Drinks</label>
 							<div style="max-height:100%;" id="drinkPhraseButtons" class="centero"></div>
 						</div>
 						<div class="collapse">
-							<input type="checkbox" id="collapse-section-places" aria-hidden="true" style="max-width:4em;">
+							<input type="checkbox" class="phraseCollapse" id="collapse-section-places" aria-hidden="true" style="max-width:4em;">
 							<label for="collapse-section-places" aria-hidden="true" style="max-width:8em;">Places</label>
 							<div style="max-height:100%;" id="placePhraseButtons" class="centero"></div>
 						</div>
@@ -286,6 +286,33 @@
 			} else {
 				document.getElementById('sherpaStatus').hidden = true;
 			}
+		}
+
+		document.getElementsByClassName('phraseCollapse').onclick = function() {
+			var clickedId = this.id;
+			console.log(clickedId);
+			var phraseBlocks = document.getElementsByClassName('phraseCollapse');
+			for(let i = 0; i < phraseBlocks.length; i++) {
+				if (phraseBlock[i].id !== clickedId) {
+					phraseBlock[i].checked = false;
+				}
+			}
+		}
+
+		var phraseBlocks = document.getElementsByClassName('phraseCollapse');
+		for(let i = 0; i < phraseBlocks.length; i++) {
+			phraseBlocks[i].onclick =
+				function() {
+					if(this.checked) {
+						var clickedId = this.id;
+						var phraseBlocksInner = document.getElementsByClassName('phraseCollapse');
+						for(let i = 0; i < phraseBlocksInner.length; i++) {
+							if (phraseBlocksInner[i].id !== clickedId) {
+								phraseBlocksInner[i].checked = false;
+							}
+						}
+					}
+				}
 		}
 
 		if (window.matchMedia('(display-mode: standalone)').matches) {
