@@ -17,13 +17,13 @@ function loadVoices() {
 	removeChildren(document.getElementById('voice'), false);
 
 	if (!checkIfVoiceInList("default")) {
-		var option = document.createElement('option');
+		let option = document.createElement('option');
 		option.value = "default";
 		option.innerHTML = "Default";
 		document.getElementById('voice').appendChild(option);
 	}
 
-	var voices = speechSynthesis.getVoices();
+	let voices = speechSynthesis.getVoices();
 	//prefer primary language
 	voices.forEach(function(voice, i) {
 		if (voice.lang === navigator.language) {
@@ -51,7 +51,7 @@ function loadVoices() {
 function addVoice(name, lang) {
 	if (ignoreVoices.includes(name)) return;
 	if (checkIfVoiceInList(name)) return;
-	var option = document.createElement('option');
+	let option = document.createElement('option');
 	option.value = name;
 	option.innerHTML = name + " (" + lang + ")";
 	document.getElementById('voice').appendChild(option);
@@ -59,7 +59,7 @@ function addVoice(name, lang) {
 }
 
 function checkIfVoiceInList(name) {
-	var existingVoices = document.getElementById('voice').children;
+	let existingVoices = document.getElementById('voice').children;
 	for(let i = 0; i < existingVoices.length; i++) {
 		if (existingVoices[i].value === name) {
 			return true;
@@ -96,7 +96,7 @@ function clearLog(){
 }
 
 function loadExternalJS(url, callAfterLoad, integrity) {
-	var tmpJS = document.createElement('script');
+	let tmpJS = document.createElement('script');
 	tmpJS.type = "text/javascript";
 	tmpJS.src = url;
 	if(integrity) {
@@ -195,16 +195,16 @@ function removeChildren(element, removeParent) {
 
 function loadPhrases(phrases) {
 	document.getElementById("phrasesInner").remove();
-	var phrasesInner = document.createElement('div');
+	let phrasesInner = document.createElement('div');
 	phrasesInner.id = "phrasesInner";
 
 	for(let i = 1; i < phrases.length; i++) {
-		var name = phrases[i][0];
-		var category = name.toLowerCase();
-		var collapseBlock = document.createElement('div');
+		let name = phrases[i][0];
+		let category = name.toLowerCase();
+		let collapseBlock = document.createElement('div');
 		collapseBlock.className = "collapse";
 
-		var collapseBlockInput = document.createElement('input');
+		let collapseBlockInput = document.createElement('input');
 		collapseBlockInput.type = "checkbox";
 		collapseBlockInput.className = "phraseCollapse";
 		collapseBlockInput.id = "collapse-phrases-" + category;
@@ -215,14 +215,14 @@ function loadPhrases(phrases) {
 		}
 		collapseBlock.appendChild(collapseBlockInput);
 
-		var collapseBlockLabel = document.createElement('label');
+		let collapseBlockLabel = document.createElement('label');
 		collapseBlockLabel.htmlFor = "collapse-phrases-" + category;
 		collapseBlockLabel.ariaHidden = true;
 		collapseBlockLabel.style = "max-width:10em;";
 		collapseBlockLabel.innerText = name;
 		collapseBlock.appendChild(collapseBlockLabel);
 
-		var collapseBlockDiv = document.createElement('div');
+		let collapseBlockDiv = document.createElement('div');
 		collapseBlockDiv.style = "max-height:100%;";
 		collapseBlockDiv.id = "phraseButtons" + name;
 		collapseBlockDiv.className = "centero";
@@ -241,13 +241,13 @@ function loadPhrases(phrases) {
 	}
 	document.getElementById("phrases").appendChild(phrasesInner);
 
-	var phraseBlocks = document.getElementsByClassName('phraseCollapse');
+	let phraseBlocks = document.getElementsByClassName('phraseCollapse');
 	for(let i = 0; i < phraseBlocks.length; i++) {
 		phraseBlocks[i].onclick =
 			function() {
 				if(document.getElementById('boardAutoCollapse').checked && (this.checked || this.id === "collapse-phrases-common")) {
-					var clickedId = this.id;
-					var phraseBlocksInner = document.getElementsByClassName('phraseCollapse');
+					let clickedId = this.id;
+					let phraseBlocksInner = document.getElementsByClassName('phraseCollapse');
 					for(let i = 0; i < phraseBlocksInner.length; i++) {
 						if (phraseBlocksInner[i].id !== clickedId && phraseBlocksInner[i].id !== "collapse-phrases-common") {
 							phraseBlocksInner[i].checked = false;
@@ -266,7 +266,7 @@ function loadBoardPresets() {
 	removeChildren(document.getElementById('boardPreset'), false);
 
 	for(let i = 0; i < boardPresets.length; i++) {
-		var option = document.createElement('option');
+		let option = document.createElement('option');
 		option.value = boardPresets[i][0].toLowerCase();
 		option.innerHTML = boardPresets[i][0];
 		document.getElementById('boardPreset').appendChild(option);
@@ -280,7 +280,7 @@ function updateBoardPreset(value) {
 }
 
 function loadLastBoard() {
-	var boardPreset = localStorage.getItem('boardPreset') || "Default (CC0)";
+	let boardPreset = localStorage.getItem('boardPreset') || "Default (CC0)";
 	for(let i = 0; i < boardPresets.length; i++) {
 		if (boardPresets[i][0] === boardPreset) {
 			loadPhrases(boardPresets[i]);
@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function(event){
 	document.getElementById('textInputFreeform').addEventListener("keydown", function (e) {
 		/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
 		/* https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values */
-		/* TODO fix this on Android */
+		/* TODO fix this in Chromium on Android */
 		if (e.key === "Enter" || (e.key === " " && document.getElementById('speakSpace').checked)) {
 			speakFreeform();
 			document.getElementById('textInputFreeform').value = "";
