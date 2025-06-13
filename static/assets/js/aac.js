@@ -224,7 +224,9 @@ function loadPhrases(phrases) {
 						}
 					}
 				}
-				this.scrollIntoView();
+				if (this.checked) {
+					this.scrollIntoView();
+				}
 			}
 	}
 }
