@@ -50,6 +50,10 @@ function loadVoices() {
 
 function addVoice(name, lang) {
 	if (ignoreVoices.includes(name)) return;
+	if (name.toLowerCase().includes("online") || name.toLowerCase().includes("cloud") || name.toLowerCase().includes("network")) {
+		document.getElementById('warningCloud').hidden = false;
+		return;
+	}
 	if (checkIfVoiceInList(name)) return;
 	let option = document.createElement('option');
 	option.value = name;
