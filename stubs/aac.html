@@ -32,6 +32,7 @@
 					</div>
 					<div class="section" id="log">
 						<h3 class="h3o">Log</h3>
+						<button onclick="clearLog()">Clear log</button>
 						<textarea id="textLog" rows="4" style="width: 100%;" placeholder="History will appear here..." disabled></textarea><br>
 					</div>
 					<div class="section" id="options">
@@ -123,6 +124,10 @@
 		document.getElementById('textLog').value = new Date().toLocaleTimeString() + " - " + text + "\n" + previousLog;
 		adjustHeight(document.getElementById('textLog'));
 		speakTextReal(text);
+	}
+
+	function clearLog(){
+		document.getElementById('textLog').value = "";
 	}
 
 	function loadExternalJS(url, callAfterLoad, integrity) {
