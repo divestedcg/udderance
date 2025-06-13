@@ -38,7 +38,7 @@
 					<div class="section" id="options">
 						<h3 class="h3o">Options</h3>
 						<label for="boardPreset">Board Preset: </label>
-						<select name="boardPreset" id="boardPreset"></select>
+						<select name="boardPreset" id="boardPreset" onchange="updateBoardPreset(this.selectedIndex)"></select>
 						<br>
 						<label for="boardAutoCollapse">Automatic board collapse: </label>
 						<input type="checkbox" name="boardAutoCollapse" id="boardAutoCollapse" checked>
@@ -365,12 +365,13 @@
 			var option = document.createElement('option');
 			option.value = boardPresets[i][0].toLowerCase();
 			option.innerHTML = boardPresets[i][0];
-			option.onclick = function() {
-				loadPhrases(boardPresets[i]);
-				localStorage.setItem('boardPreset', boardPresets[i][0]);
-			}
 			document.getElementById('boardPreset').appendChild(option);
 		}
+	}
+
+	function updateBoardPreset(value) {
+		loadPhrases(boardPresets[value]);
+		localStorage.setItem('boardPreset', boardPresets[value][0]);
 	}
 
 	function loadLastBoard() {
