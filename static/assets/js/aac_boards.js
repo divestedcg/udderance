@@ -16,6 +16,7 @@ phrasesDefault.push(["Foods", "I want", "I need", "[SEP]", "biscuits", "bread", 
 phrasesDefault.push(["Snacks", "I want", "I need", "[SEP]", "brownies", "cake", "candy", "chips", "cookies", "crackers", "donuts", "ice cream", "muffins", "nuts", "pie", "pretzels"]);
 phrasesDefault.push(["Drinks", "I want", "I need", "[SEP]", "water", "juice", "coffee", "hot cocoa", "milk", "soda", "milkshake", "a straw"]);
 phrasesDefault.push(["Places", "outside", "inside", "home", "front yard", "back yard", "patio", "garage", "grocery store", "gas station", "hospital", "office", "school", "bank", "ATM", "gym"]);
+phrasesDefault.push(["Fun", "honk honk", "swish swish swish", "how now brown cow"]);
 /* END OF BOARD PRESET */
 
 /* START OF BOARD PRESET: Cboard Classic Home (GPL-3.0) [2025-06-13] */
