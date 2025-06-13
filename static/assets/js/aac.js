@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function(event){
 	loadBoardPresets();
 	loadLastBoard();
 
-	if (window['speechSynthesis'] === undefined || numVoicesAdded === 0) {
+	if (window['speechSynthesis'] === undefined /* || numVoicesAdded === 0 */) {
 		if(wasmSupported && !isSafari) {
 			document.getElementById('errorField').innerText = "Warning: Speech Synthesis API is unavailable! Please use Sherpa instead.";
 		} else {
