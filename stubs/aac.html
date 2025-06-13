@@ -48,7 +48,7 @@
 						<hr>
 						<p>SherpaOnnx is available as an alternative to the system's native TTS backend. It requires a 100MB database download (which may not get cached) and WASM to be enabled. Longer prompts can be slow to generate. 904 voice variants are available.</p>
 						<label for="useSherpa">Use Sherpa: </label>
-						<input type="checkbox" name="useSherpa" id="useSherpa">
+						<input type="checkbox" name="useSherpa" id="useSherpa" onclick="handleSherpaToggle()">
 						<br>
 						<label for="sherpaSpeakerID">Sherpa Speaker ID: </label>
 						<input type="number" name="sherpaSpeakerID" id="sherpaSpeakerID" min="0" max="904" value="0">
@@ -57,5 +57,5 @@
 						<input type="number" name="sherpaSpeed" id="sherpaSpeed" min="0.4" max="3.5" step="0.1" value="1.0">
 					</div>
 				</div>
-<script src="/assets/js/aac_boards.js" type="text/javascript"></script>
-<script src="/assets/js/aac.js" type="text/javascript"></script>
+				<script src="/assets/js/aac_boards.js" type="text/javascript"></script>
+				<script src="/assets/js/aac.js" type="text/javascript"></script>

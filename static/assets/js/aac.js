@@ -1,5 +1,5 @@
+/* Credit (CC BY-SA 3.0): https://stackoverflow.com/a/17259991 */
 function adjustHeight(el){
-	/* Credit (CC BY-SA 3.0): https://stackoverflow.com/a/17259991 */
 	el.style.height = (el.scrollHeight > el.clientHeight) ? (el.scrollHeight)+"px" : "60px";
 	if(el.scrollHeight > 400) {
 		el.style.height = "400px";
@@ -11,8 +11,8 @@ const ignoreVoices = [
 			"Albert", "Bad News", "Bahh", "Bells", "Boing", "Bubbles", "Cellos", "Good News", "Jester", "Organ", "Superstar", "Trinoids", "Whisper", "Wobble", "Zarvox",
 			"Eddy", "Flo", "Grandma", "Grandpa", "Jacques", "Reed", "Rocko", "Sandy", "Shelley", "Fred", "Junior", "Kathy", "Ralph"];
 
+/* Credit: https://codepen.io/matt-west/pen/DpmMgE */
 function loadVoices() {
-	/* Credit: https://codepen.io/matt-west/pen/DpmMgE */
 	removeChildren(document.getElementById('voice'), false);
 	var option = document.createElement('option');
 	option.value = "default";
@@ -85,8 +85,10 @@ let tts = null;
 let audioCtx = null;
 Module = {};
 let sherpaLoaded = false;
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent); /* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/23522755 */
-const wasmSupported = (() => { /* Credit (CC BY-SA 3.0): https://stackoverflow.com/a/47880734 */
+/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/23522755 */
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+/* Credit (CC BY-SA 3.0): https://stackoverflow.com/a/47880734 */
+const wasmSupported = (() => {
 	try {
 		if (typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function") {
 			const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
@@ -96,6 +98,7 @@ const wasmSupported = (() => { /* Credit (CC BY-SA 3.0): https://stackoverflow.c
 	} catch (e) {}
 	return false;
 })();
+
 function initSherpa() {
 	if (!sherpaLoaded && wasmSupported && !isSafari) {
 		/* Credit (Apache-2.0): https://github.com/k2-fsa/sherpa-onnx/blob/master/wasm/tts/app-tts.js */
@@ -258,6 +261,15 @@ function loadLastBoard() {
 	}
 }
 
+function handleSherpaToggle() {
+	initSherpa();
+	if (document.getElementById('useSherpa').checked) {
+		document.getElementById('sherpaStatus').hidden = false;
+	} else {
+		document.getElementById('sherpaStatus').hidden = true;
+	}
+}
+
 document.addEventListener("DOMContentLoaded", function(event){
 	document.getElementById('textInputFreeform').addEventListener("keypress", function (e) {
 		/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
@@ -267,17 +279,8 @@ document.addEventListener("DOMContentLoaded", function(event){
 		}
 	});
 
-	document.getElementById('useSherpa').onclick = function() {
-		initSherpa();
-		if (document.getElementById('useSherpa').checked) {
-			document.getElementById('sherpaStatus').hidden = false;
-		} else {
-			document.getElementById('sherpaStatus').hidden = true;
-		}
-	}
-
+	/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/41749865 */
 	if (window.matchMedia('(display-mode: standalone)').matches) {
-		/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/41749865 */
 		removeChildren(document.getElementById('real_header'), true);
 		removeChildren(document.getElementById('real_footer'), true);
 		document.getElementById('install').remove();
