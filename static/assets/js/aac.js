@@ -12,6 +12,7 @@ const ignoreVoices = [
 			"Eddy", "Flo", "Grandma", "Grandpa", "Jacques", "Reed", "Rocko", "Sandy", "Shelley", "Fred", "Junior", "Kathy", "Ralph"];
 
 /* Credit: https://codepen.io/matt-west/pen/DpmMgE */
+let numVoicesAdded = 0;
 function loadVoices() {
 	removeChildren(document.getElementById('voice'), false);
 	var option = document.createElement('option');
@@ -19,28 +20,27 @@ function loadVoices() {
 	option.innerHTML = "Default";
 	document.getElementById('voice').appendChild(option);
 	var voices = speechSynthesis.getVoices();
-	var numAdded = 0;
+	/* TODO: simplify this frontload */
 	voices.forEach(function(voice, i) {
+		if (ignoreVoices.includes(voice.name)) return;
 		if (voice.lang === navigator.language) {
-			if(ignoreVoices.includes(voice.name)) return;
 			var option = document.createElement('option');
 			option.value = voice.name;
-			option.innerHTML = voice.name;
+			option.innerHTML = voice.name + "(" + voice.lang + ")";
 			document.getElementById('voice').appendChild(option);
-			numAdded++;
+			numVoicesAdded++;
 		}
 	});
-	if (numAdded === 0) {
-		voices.forEach(function(voice, i) {
-			if (ignoreVoices.includes(voice.name)) return;
-			if (voice.lang === navigator.language) {
-				var option = document.createElement('option');
-				option.value = voice.name;
-				option.innerHTML = voice.name + "(" + voice.lang + ")";
-				document.getElementById('voice').appendChild(option);
-			}
-		});
-	}
+	voices.forEach(function(voice, i) {
+		if (ignoreVoices.includes(voice.name)) return;
+		if (voice.lang !== navigator.language) {
+			var option = document.createElement('option');
+			option.value = voice.name;
+			option.innerHTML = voice.name + "(" + voice.lang + ")";
+			document.getElementById('voice').appendChild(option);
+			numVoicesAdded++;
+		}
+	});
 }
 
 function speakFreeform() {
@@ -102,7 +102,7 @@ const wasmSupported = (() => {
 function initSherpa() {
 	if (!sherpaLoaded && wasmSupported && !isSafari) {
 		/* Credit (Apache-2.0): https://github.com/k2-fsa/sherpa-onnx/blob/master/wasm/tts/app-tts.js */
-		document.getElementById('sherpaStatus').textContent = "Loading";
+		document.getElementById('sherpaStatus').textContent = "Sherpa: Loading";
 
 		loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-tts.js", null, "sha384-olKOSYDQyGeqeF0Icur2481IST25MDaalHcguSZIYEn+2YszWgzTGl7jdEXU7f7O");
 		loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.js", null, "sha384-eEpXm74uTowjM4I/C5wWNM/A85zJnJGYTIC6LPHOUjGS2aqEK4wvtHD0Cav8xaEt");
@@ -119,11 +119,14 @@ function initSherpa() {
 
 		Module.onRuntimeInitialized = function() {
 			console.log('Initializing tts');
-			document.getElementById('sherpaStatus').textContent = "Initializing";
+			document.getElementById('sherpaStatus').textContent = "Sherpa: Initializing";
 			tts = createOfflineTts(Module)
 		};
 
 		sherpaLoaded = true;
+		if (document.getElementById('errorField').innerText.includes("Please use Sherpa instead")) {
+			document.getElementById('errorField').innerText = "";
+		}
 	}
 }
 
@@ -287,8 +290,12 @@ document.addEventListener("DOMContentLoaded", function(event){
 		document.getElementById('aac_title').remove();
 	}
 
-	if (window['speechSynthesis'] === undefined) {
-		document.getElementById('errorField').innerText = "ERROR: TTS API unavailable!";
+	if (window['speechSynthesis'] === undefined || numVoicesAdded === 0) {
+		if(wasmSupported && !isSafari) {
+			document.getElementById('errorField').innerText = "Warning: Speech Synthesis API is unavailable! Please use Sherpa instead.";
+		} else {
+			document.getElementById('errorField').innerText = "ERROR: Speech Synthesis API and Sherpa are both unavailable!";
+		}
 	}
 
 	loadVoices();
