@@ -28,36 +28,7 @@
 					</div>
 					<div class="section" id="phrases">
 						<h3 class="h3o">Phrases</h3>
-						<div class="collapse">
-							<input type="checkbox" class="phraseCollapse" id="collapse-section-common" aria-hidden="true" style="max-width:4em;" checked>
-							<label for="collapse-section-common" aria-hidden="true" style="max-width:8em;">Common</label>
-							<div style="max-height:100%;" id="commonPhraseButtons" class="centero"></div>
-						</div>
-						<div class="collapse">
-							<input type="checkbox" class="phraseCollapse" id="collapse-section-numbers" aria-hidden="true" style="max-width:4em;">
-							<label for="collapse-section-numbers" aria-hidden="true" style="max-width:8em;">Numbers</label>
-							<div style="max-height:100%;" id="numberPhraseButtons" class="centero"></div>
-						</div>
-						<div class="collapse">
-							<input type="checkbox" class="phraseCollapse" id="collapse-section-foods" aria-hidden="true" style="max-width:4em;">
-							<label for="collapse-section-foods" aria-hidden="true" style="max-width:8em;">Foods</label>
-							<div style="max-height:100%;" id="foodPhraseButtons" class="centero"></div>
-						</div>
-						<div class="collapse">
-							<input type="checkbox" class="phraseCollapse" id="collapse-section-snacks" aria-hidden="true" style="max-width:4em;">
-							<label for="collapse-section-snacks" aria-hidden="true" style="max-width:8em;">Snacks</label>
-							<div style="max-height:100%;" id="snackPhraseButtons" class="centero"></div>
-						</div>
-						<div class="collapse">
-							<input type="checkbox" class="phraseCollapse" id="collapse-section-drinks" aria-hidden="true" style="max-width:4em;">
-							<label for="collapse-section-drinks" aria-hidden="true" style="max-width:8em;">Drinks</label>
-							<div style="max-height:100%;" id="drinkPhraseButtons" class="centero"></div>
-						</div>
-						<div class="collapse">
-							<input type="checkbox" class="phraseCollapse" id="collapse-section-places" aria-hidden="true" style="max-width:4em;">
-							<label for="collapse-section-places" aria-hidden="true" style="max-width:8em;">Places</label>
-							<div style="max-height:100%;" id="placePhraseButtons" class="centero"></div>
-						</div>
+						<div id="phrasesInner"></div>
 					</div>
 					<div class="section" id="log">
 						<h3 class="h3o">Log</h3>
@@ -241,19 +212,72 @@
 		if (andTop) element.remove();
 	}
 
-	function loadPhrasesIntoBlock(block, phrases) {
-		for (let i = 0; i < phrases.length; i++) {
-			if (phrases[i].startsWith("CAT:")) {
-				document.getElementById(block).innerHTML += phrases[i].substring(4) + ": ";
-			} else if (phrases[i] === "[SEP]") {
-				document.getElementById(block).innerHTML += "<br>";
-			} else {
-				document.getElementById(block).innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + phrases[i] + "</button>";
+	function loadPhrases(phrases) {
+		document.getElementById("phrasesInner").remove();
+		var phrasesInner = document.createElement('div');
+		phrasesInner.id = "phrasesInner";
+
+		for(let i = 0; i < phrases.length; i++) {
+			var name = phrases[i][0];
+			var category = name.toLowerCase();
+			var collapseBlock = document.createElement('div');
+			collapseBlock.className = "collapse";
+
+			var collapseBlockInput = document.createElement('input');
+			collapseBlockInput.type = "checkbox";
+			collapseBlockInput.className = "phraseCollapse";
+			collapseBlockInput.id = "collapse-phrases-" + category;
+			collapseBlockInput.ariaHidden = true;
+			collapseBlockInput.style = "max-width:4em;";
+			if (category === "common") {
+				collapseBlockInput.checked = true;
 			}
+			collapseBlock.appendChild(collapseBlockInput);
+
+			var collapseBlockLabel = document.createElement('label');
+			collapseBlockLabel.htmlFor = "collapse-phrases-" + category;
+			collapseBlockLabel.ariaHidden = true;
+			collapseBlockLabel.style = "max-width:8em;";
+			collapseBlockLabel.innerText = name;
+			collapseBlock.appendChild(collapseBlockLabel);
+
+			var collapseBlockDiv = document.createElement('div');
+			collapseBlockDiv.style = "max-height:100%;";
+			collapseBlockDiv.id = "phraseButtons" + name;
+			collapseBlockDiv.className = "centero";
+			for (let x = 1; x < phrases[i].length; x++) {
+				if (phrases[i][x].startsWith("CAT:")) {
+					collapseBlockDiv.innerHTML += phrases[i][x].substring(4) + ": ";
+				} else if (phrases[i][x] === "[SEP]") {
+					collapseBlockDiv.innerHTML += "<br>";
+				} else {
+					collapseBlockDiv.innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + phrases[i][x] + "</button>";
+				}
+			}
+			collapseBlock.appendChild(collapseBlockDiv);
+
+			phrasesInner.appendChild(collapseBlock);
+		}
+		document.getElementById("phrases").appendChild(phrasesInner);
+
+		var phraseBlocks = document.getElementsByClassName('phraseCollapse');
+		for(let i = 0; i < phraseBlocks.length; i++) {
+			phraseBlocks[i].onclick =
+				function() {
+					if(this.checked || this.id === "collapse-phrases-common") {
+						var clickedId = this.id;
+						var phraseBlocksInner = document.getElementsByClassName('phraseCollapse');
+						for(let i = 0; i < phraseBlocksInner.length; i++) {
+							if (phraseBlocksInner[i].id !== clickedId && phraseBlocksInner[i].id !== "collapse-phrases-common") {
+								phraseBlocksInner[i].checked = false;
+							}
+						}
+					}
+				}
 		}
 	}
 
-	const commonPhrases = ["yes", "no", "okay", "[SEP]",
+	const phrasesDefaultCommon = ["Common", "yes", "no", "okay", "[SEP]",
 				"I don't know", "I don't understand", "[SEP]",
 				"what?", "why?", "how?", "[SEP]",
 				"when?", "which?", "where?", "[SEP]",
@@ -264,11 +288,13 @@
 				"day", "night", "morning", "afternoon", "[SEP]",
 				"I am hungry", "I am thirsty", "I am tired", "I need the bathroom", "[SEP]"
 				];
-	const numberPhrases = ["0", "1", "2", "3", "4", "[SEP]", "5", "6", "7", "8", "9"];
-	const foodPhrases = ["I want", "I need", "[SEP]", "biscuits", "bread", "broccoli", "burger", "cereal", "chicken", "corn", "eggs", "french fries", "grilled cheese", "hash browns", "hot dogs", "mac and cheese", "pancakes", "pasta", "peanut butter and jelly", "pizza", "potatoes", "ramen", "rice", "sandwich", "sausage", "soup", "string beans", "toast", "waffles"];
-	const snackPhrases = ["I want", "I need", "[SEP]", "brownies", "cake", "candy", "chips", "cookies", "crackers", "donuts", "ice cream", "muffins", "nuts", "pie", "pretzels"];
-	const drinkPhrases = ["I want", "I need", "[SEP]", "water", "juice", "coffee", "hot cocoa", "milk", "soda", "milkshake", "a straw"];
-	const placePhrases = ["outside", "inside", "home", "front yard", "back yard", "patio", "garage", "grocery store", "gas station", "hospital", "office", "school", "bank", "ATM", "gym"];
+	const phrasesDefaultNumbers = ["Numbers", "0", "1", "2", "3", "4", "[SEP]", "5", "6", "7", "8", "9"];
+	const phrasesDefaultFoods = ["Foods", "I want", "I need", "[SEP]", "biscuits", "bread", "broccoli", "burger", "cereal", "chicken", "corn", "eggs", "french fries", "grilled cheese", "hash browns", "hot dogs", "mac and cheese", "pancakes", "pasta", "peanut butter and jelly", "pizza", "potatoes", "ramen", "rice", "sandwich", "sausage", "soup", "string beans", "toast", "waffles"];
+	const phrasesDefaultSnacks = ["Snacks", "I want", "I need", "[SEP]", "brownies", "cake", "candy", "chips", "cookies", "crackers", "donuts", "ice cream", "muffins", "nuts", "pie", "pretzels"];
+	const phrasesDefaultDrinks = ["Drinks", "I want", "I need", "[SEP]", "water", "juice", "coffee", "hot cocoa", "milk", "soda", "milkshake", "a straw"];
+	const phrasesDefaultPlaces = ["Places", "outside", "inside", "home", "front yard", "back yard", "patio", "garage", "grocery store", "gas station", "hospital", "office", "school", "bank", "ATM", "gym"];
+
+	const phrasesDefault = [phrasesDefaultCommon, phrasesDefaultNumbers, phrasesDefaultFoods, phrasesDefaultSnacks, phrasesDefaultDrinks, phrasesDefaultPlaces];
 
 	document.addEventListener("DOMContentLoaded", function(event){
 		document.getElementById('textInputFreeform').addEventListener("keypress", function (e) {
@@ -288,33 +314,6 @@
 			}
 		}
 
-		document.getElementsByClassName('phraseCollapse').onclick = function() {
-			var clickedId = this.id;
-			console.log(clickedId);
-			var phraseBlocks = document.getElementsByClassName('phraseCollapse');
-			for(let i = 0; i < phraseBlocks.length; i++) {
-				if (phraseBlock[i].id !== clickedId) {
-					phraseBlock[i].checked = false;
-				}
-			}
-		}
-
-		var phraseBlocks = document.getElementsByClassName('phraseCollapse');
-		for(let i = 0; i < phraseBlocks.length; i++) {
-			phraseBlocks[i].onclick =
-				function() {
-					if(this.checked) {
-						var clickedId = this.id;
-						var phraseBlocksInner = document.getElementsByClassName('phraseCollapse');
-						for(let i = 0; i < phraseBlocksInner.length; i++) {
-							if (phraseBlocksInner[i].id !== clickedId) {
-								phraseBlocksInner[i].checked = false;
-							}
-						}
-					}
-				}
-		}
-
 		if (window.matchMedia('(display-mode: standalone)').matches) {
 			/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/41749865 */
 			removeChildren(document.getElementById('real_header'), true);
@@ -332,12 +331,7 @@
 			loadVoices();
 		};
 
-		loadPhrasesIntoBlock('commonPhraseButtons', commonPhrases);
-		loadPhrasesIntoBlock('numberPhraseButtons', numberPhrases);
-		loadPhrasesIntoBlock('foodPhraseButtons', foodPhrases);
-		loadPhrasesIntoBlock('snackPhraseButtons', snackPhrases);
-		loadPhrasesIntoBlock('drinkPhraseButtons', drinkPhrases);
-		loadPhrasesIntoBlock('placePhraseButtons', placePhrases);
+		loadPhrases(phrasesDefault);
 
 		if (!wasmSupported || isSafari) {
 			document.getElementById('useSherpa').disabled = true;
