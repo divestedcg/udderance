@@ -14,7 +14,6 @@ const ignoreVoices = [
 /* Credit: https://codepen.io/matt-west/pen/DpmMgE */
 let numVoicesAdded = 0;
 function loadVoices() {
-	/* TODO make this more reliable */
 	removeChildren(document.getElementById('voice'), false);
 
 	if (!checkIfVoiceInList("default")) {
@@ -45,6 +44,8 @@ function loadVoices() {
 	if (numVoicesAdded > 0 && document.getElementById('errorField').innerText.includes("unavailable")) {
 		document.getElementById('errorField').innerText = "";
 	}
+
+	loadLastVoice();
 }
 
 function addVoice(name, lang) {
@@ -98,7 +99,7 @@ function loadExternalJS(url, callAfterLoad, integrity) {
 	var tmpJS = document.createElement('script');
 	tmpJS.type = "text/javascript";
 	tmpJS.src = url;
-	if(integrity !== undefined) {
+	if(integrity) {
 		tmpJS.integrity = integrity;
 	}
 	tmpJS.onload = callAfterLoad;
@@ -185,12 +186,11 @@ function speakTextReal(textReal) {
 	}
 }
 
-function removeChildren(element, andTop) {
-	var children = element.childNodes;
-	for(let i = 0; i < children.length; i++) {
-		children[i].remove();
+function removeChildren(element, removeParent) {
+	while (element.firstChild) {
+		element.removeChild(element.firstChild);
 	}
-	if (andTop) element.remove();
+	if (removeParent) element.remove();
 }
 
 function loadPhrases(phrases) {
@@ -307,10 +307,11 @@ function loadLastVoice() {
 }
 
 document.addEventListener("DOMContentLoaded", function(event){
-	document.getElementById('textInputFreeform').addEventListener("keypress", function (e) {
+	document.getElementById('textInputFreeform').addEventListener("keydown", function (e) {
 		/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
+		/* https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values */
 		/* TODO fix this on Android */
-		if (e.code === "Enter" || (e.code === "Space" && document.getElementById('speakSpace').checked)) {
+		if (e.key === "Enter" || (e.key === " " && document.getElementById('speakSpace').checked)) {
 			speakFreeform();
 			document.getElementById('textInputFreeform').value = "";
 		}
@@ -325,11 +326,11 @@ document.addEventListener("DOMContentLoaded", function(event){
 	}
 
 	loadVoices();
-	/* TODO fixup this special Chromium handling
-	window.speechSynthesis.onvoiceschanged = function(e) {
-		loadVoices();
-	}; */
-	loadLastVoice();
+	if (!isSafari) {
+		window.speechSynthesis.onvoiceschanged = function(e) {
+			loadVoices();
+		};
+	}
 
 	loadBoardPresets();
 	loadLastBoard();
