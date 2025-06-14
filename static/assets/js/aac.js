@@ -396,7 +396,7 @@ function updateBoardPreset(value) {
 }
 
 function loadLastBoard() {
-	let boardPreset = localStorage.getItem('boardPreset') || "Default (CC0)";
+	let boardPreset = localStorage.getItem('boardPreset') || "Default (CC0) [en]";
 	for(let i = 0; i < boardPresets.length; i++) {
 		if (boardPresets[i][0] === boardPreset) {
 			loadPhrases(boardPresets[i]);

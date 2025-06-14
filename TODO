@@ -1,3 +1,8 @@
 - ServiceWorker to aggressively cache for more reliable offline use
 - More board presets
 - Dark mode
+- Custom board creation
+- Load custom boards
+- Translations of the website
+- Translations of the boards
+	- The picture map for this requires special handling
