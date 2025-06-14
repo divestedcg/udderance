@@ -334,8 +334,14 @@ function generateDialog(name, content, parent) {
 function generatePhraseButtons(phrases, hasPictures) {
 	let output = "";
 	for (let x = 1; x < phrases.length; x++) {
-		//TODO handle submenu generation
-		if (phrases[x].startsWith("CAT:")) {
+		if (Array.isArray(phrases[x])) {
+			//TODO this looks weird when shown in a collapse
+			//TODO the close button of a sub menu can collude with the parents close button
+			let div = document.createElement('div');
+			let outputResult = generateDialog(phrases[x][0], generatePhraseButtons(phrases[x], hasPictures), div);
+			div.appendChild(outputResult);
+			output += div.innerHTML;
+		} else if (phrases[x].startsWith("CAT:")) {
 			output += phrases[x].substring(4) + ": ";
 		} else if (phrases[x] === "[SEP]") {
 			output += "<br>";
