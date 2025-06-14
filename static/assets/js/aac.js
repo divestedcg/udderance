@@ -241,7 +241,27 @@ function loadPhrases(phrases) {
 			} else if (phrases[i][x] === "[SEP]") {
 				collapseBlockDiv.innerHTML += "<br>";
 			} else {
-				collapseBlockDiv.innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + phrases[i][x] + "</button>";
+				let buttonImage = "";
+				let word = phrases[i][x];
+				if (document.getElementById('enablePictograms').checked && phrases === boardPresets[1]) {
+					if (wordPictureMap.has(word) && wordPictureMap.get(word).length > 0) {
+						let picture = wordPictureMap.get(word) + ".svg";
+						if (picture.includes(magicBase)) {
+							if (document.getElementById('femmePictograms').checked) {
+								picture = picture.replace(magicGenderWord, "lady").replace(magicGenderNum, "2");
+							} else {
+								picture = picture.replace(magicGenderWord, "man").replace(magicGenderNum, "1");
+							}
+							if (document.getElementById('darkPictograms').checked) {
+								picture = picture.replace(magicColorWord, "b");
+							} else {
+								picture = picture.replace(magicColorWord, "a");
+							}
+						}
+						buttonImage = "<img style=\"max-width: 48px\" src=\"/assets/mulberry-symbols/" + picture + "\"><br>";
+					}
+				}
+				collapseBlockDiv.innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + buttonImage + word + "</button>";
 			}
 		}
 		collapseBlock.appendChild(collapseBlockDiv);
@@ -314,6 +334,19 @@ function loadLastVoice() {
 	document.getElementById("voice").selectedIndex = localStorage.getItem('voice') || "0";
 }
 
+function handlePictogramToggle() {
+	localStorage.setItem('pictogramsEnabled', document.getElementById("enablePictograms").checked);
+	localStorage.setItem('pictogramsPreferFemme', document.getElementById("femmePictograms").checked);
+	localStorage.setItem('pictogramsPreferDark', document.getElementById("darkPictograms").checked);
+	loadLastBoard();
+}
+
+function loadPictogramSettings() {
+	document.getElementById("enablePictograms").checked = (localStorage.getItem('pictogramsEnabled') === 'true');
+	document.getElementById("femmePictograms").checked = (localStorage.getItem('pictogramsPreferFemme') === 'true');
+	document.getElementById("darkPictograms").checked = (localStorage.getItem('pictogramsPreferDark') === 'true');
+}
+
 document.addEventListener("DOMContentLoaded", function(event){
 	document.getElementById('textInputFreeform').addEventListener("keydown", function (e) {
 		/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
@@ -341,6 +374,7 @@ document.addEventListener("DOMContentLoaded", function(event){
 	}
 
 	loadBoardPresets();
+	loadPictogramSettings();
 	loadLastBoard();
 
 	if (window['speechSynthesis'] === undefined /* || numVoicesAdded === 0 */) {

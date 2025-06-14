@@ -6,6 +6,7 @@ If you've found an issue please file an issue or pull request.
 
 assets/css/mini-*.min.css - MIT - v3.0.1 - https://github.com/Chalarangelo/mini.css
 assets/fonts/fira* - OFL - https://github.com/mozilla/Fira
+assets/mulberry-symbols - CC BY-SA 4.0 - https://github.com/mulberrysymbols/mulberry-symbols
 assets/sherpa-onnx - various
 	Sherpa - Apache-2.0 - https://github.com/k2-fsa/sherpa-onnx
 	Onnx - Apache-2.0 - https://github.com/onnx/onnx

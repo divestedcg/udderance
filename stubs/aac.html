@@ -45,6 +45,15 @@
 						<label for="boardAutoCollapse">Automatic board collapse: </label>
 						<input type="checkbox" name="boardAutoCollapse" id="boardAutoCollapse" checked>
 						<br>
+						<label for="enablePictograms">Enable pictograms from Mulberry Symbols (CC BY-SA 4.0): </label>
+						<input type="checkbox" name="enablePictograms" id="enablePictograms" onclick="handlePictogramToggle()">
+						<br>
+						<label for="femmePictograms">Prefer femme pictograms: </label>
+						<input type="checkbox" name="femmePictograms" id="femmePictograms" onclick="handlePictogramToggle()">
+						<br>
+						<label for="darkPictograms">Prefer dark skin pictograms: </label>
+						<input type="checkbox" name="darkPictograms" id="darkPictograms" onclick="handlePictogramToggle()">
+						<br>
 						<label for="voice">Voice: </label>
 						<select name="voice" id="voice" onchange="updateVoice()"></select>
 						<hr>
@@ -60,4 +69,5 @@
 					</div>
 				</div>
 				<script src="/assets/js/aac_boards.js" type="text/javascript"></script>
+				<script src="/assets/js/aac_pictogram_map.js" type="text/javascript"></script>
 				<script src="/assets/js/aac.js" type="text/javascript"></script>
