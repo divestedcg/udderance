@@ -280,56 +280,61 @@ function loadPhrasesDialog(phrases) {
 	phrasesInner.id = "phrasesInner";
 	phrasesInner.className = "centero";
 
-	//TODO: refactor this to handle recursive use for submenu generation
 	for(let i = 1; i < phrases.length; i++) {
 		let name = phrases[i][0];
-		let category = name.toLowerCase();
-
-		let dialogToggleLabel = document.createElement('label');
-		dialogToggleLabel.htmlFor = "dialog-toggle-" + category;
-		dialogToggleLabel.className = "button";
-		dialogToggleLabel.innerText = name;
-		phrasesInner.appendChild(dialogToggleLabel);
-
-		let dialogToggleCheckbox = document.createElement('input');
-		dialogToggleCheckbox.type = "checkbox";
-		dialogToggleCheckbox.className = "modal";
-		dialogToggleCheckbox.id = "dialog-toggle-" + category;
-		phrasesInner.appendChild(dialogToggleCheckbox);
-
-		let dialogBlockInner = document.createElement('div');
-		dialogBlockInner.className = "modal";
-		dialogBlockInner.style = "max-height:100%;";
-
-		let dialogBlockInnerCard = document.createElement('div');
-		dialogBlockInnerCard.className = "card large";
-		dialogBlockInnerCard.style = "max-height:100%;";
-
-		let dialogToggleClose = document.createElement('label');
-		dialogToggleClose.htmlFor = "dialog-toggle-" + category;
-		dialogToggleClose.className = "modal-close";
-		dialogBlockInnerCard.appendChild(dialogToggleClose);
-
-		let dialogBlockHeader = document.createElement('h3');
-		dialogBlockHeader.innerText = name;
-		dialogBlockInnerCard.appendChild(dialogBlockHeader);
-
-		let dialogPhrasesDiv = document.createElement('div');
-		dialogPhrasesDiv.style = "max-height:100%;";
-		dialogPhrasesDiv.id = "phraseButtons" + name;
-		dialogPhrasesDiv.className = "centero";
-		dialogPhrasesDiv.innerHTML = generatePhraseButtons(phrases[i]);
-		dialogBlockInnerCard.appendChild(dialogPhrasesDiv);
-
-		dialogBlockInner.appendChild(dialogBlockInnerCard);
-		phrasesInner.appendChild(dialogBlockInner);
+		let content = generatePhraseButtons(phrases[i]);
+		let dialog = generateDialog(name, content, phrasesInner);
+		phrasesInner.appendChild(dialog);
 	}
 	document.getElementById("phrases").appendChild(phrasesInner);
+}
+
+function generateDialog(name, content, parent) {
+	let category = name.toLowerCase();
+	let dialogToggleLabel = document.createElement('label');
+	dialogToggleLabel.htmlFor = "dialog-toggle-" + category;
+	dialogToggleLabel.className = "button";
+	dialogToggleLabel.innerText = name;
+	parent.appendChild(dialogToggleLabel);
+
+	let dialogToggleCheckbox = document.createElement('input');
+	dialogToggleCheckbox.type = "checkbox";
+	dialogToggleCheckbox.className = "modal";
+	dialogToggleCheckbox.id = "dialog-toggle-" + category;
+	parent.appendChild(dialogToggleCheckbox);
+
+	let dialogBlockInner = document.createElement('div');
+	dialogBlockInner.className = "modal";
+	dialogBlockInner.style = "max-height:100%;";
+
+	let dialogBlockInnerCard = document.createElement('div');
+	dialogBlockInnerCard.className = "card large";
+	dialogBlockInnerCard.style = "max-height:100%;";
+
+	let dialogToggleClose = document.createElement('label');
+	dialogToggleClose.htmlFor = "dialog-toggle-" + category;
+	dialogToggleClose.className = "modal-close";
+	dialogBlockInnerCard.appendChild(dialogToggleClose);
+
+	let dialogBlockHeader = document.createElement('h3');
+	dialogBlockHeader.innerText = name;
+	dialogBlockInnerCard.appendChild(dialogBlockHeader);
+
+	let dialogPhrasesDiv = document.createElement('div');
+	dialogPhrasesDiv.style = "max-height:100%;";
+	dialogPhrasesDiv.id = "phraseButtons" + name;
+	dialogPhrasesDiv.className = "centero";
+	dialogPhrasesDiv.innerHTML = content;
+	dialogBlockInnerCard.appendChild(dialogPhrasesDiv);
+
+	dialogBlockInner.appendChild(dialogBlockInnerCard);
+	return dialogBlockInner;
 }
 
 function generatePhraseButtons(phrases) {
 	let output = "";
 	for (let x = 1; x < phrases.length; x++) {
+		//TODO handle submenu generation
 		if (phrases[x].startsWith("CAT:")) {
 			output += phrases[x].substring(4) + ": ";
 		} else if (phrases[x] === "[SEP]") {
