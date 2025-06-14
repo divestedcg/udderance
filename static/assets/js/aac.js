@@ -258,7 +258,7 @@ function loadPhrases(phrases) {
 								picture = picture.replace(magicColorWord, "a");
 							}
 						}
-						buttonImage = "<img style=\"max-width: 48px\" src=\"/assets/mulberry-symbols/" + picture + "\"><br>";
+						buttonImage = "<img loading=\"lazy\" style=\"max-width: 48px\" src=\"/assets/mulberry-symbols/" + picture + "\"><br>";
 					}
 				}
 				collapseBlockDiv.innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + buttonImage + word + "</button>";
