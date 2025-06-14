@@ -220,36 +220,8 @@ function loadPhrasesCollapse(phrases) {
 
 	for(let i = 1; i < phrases.length; i++) {
 		let name = phrases[i][0];
-		let category = name.toLowerCase();
-		let collapseBlock = document.createElement('div');
-		collapseBlock.className = "collapse";
-
-		let collapseBlockInput = document.createElement('input');
-		collapseBlockInput.type = "checkbox";
-		collapseBlockInput.className = "phraseCollapse";
-		collapseBlockInput.id = "collapse-phrases-" + category;
-		collapseBlockInput.ariaHidden = true;
-		collapseBlockInput.style = "max-width:10em;";
-		if (category === "common") {
-			collapseBlockInput.checked = true;
-		}
-		collapseBlock.appendChild(collapseBlockInput);
-
-		let collapseBlockLabel = document.createElement('label');
-		collapseBlockLabel.htmlFor = "collapse-phrases-" + category;
-		collapseBlockLabel.ariaHidden = true;
-		collapseBlockLabel.style = "max-width:10em;";
-		collapseBlockLabel.innerText = name;
-		collapseBlock.appendChild(collapseBlockLabel);
-
-		let collapseBlockDiv = document.createElement('div');
-		collapseBlockDiv.style = "max-height:100%;";
-		collapseBlockDiv.id = "phraseButtons" + name;
-		collapseBlockDiv.className = "centero";
-		collapseBlockDiv.innerHTML = generatePhraseButtons(phrases[i], phrases[0].includes("🖼️"));
-		collapseBlock.appendChild(collapseBlockDiv);
-
-		phrasesInner.appendChild(collapseBlock);
+		let collapse = generateCollapse(name, generatePhraseButtons(phrases[i], phrases[0].includes("🖼️")));
+		phrasesInner.appendChild(collapse);
 	}
 	document.getElementById("phrases").appendChild(phrasesInner);
 
@@ -271,6 +243,39 @@ function loadPhrasesCollapse(phrases) {
 				}
 			}
 	}
+}
+
+function generateCollapse(name, content) {
+	let category = name.toLowerCase();
+	let collapseBlock = document.createElement('div');
+	collapseBlock.className = "collapse";
+
+	let collapseBlockInput = document.createElement('input');
+	collapseBlockInput.type = "checkbox";
+	collapseBlockInput.className = "phraseCollapse";
+	collapseBlockInput.id = "collapse-phrases-" + category;
+	collapseBlockInput.ariaHidden = true;
+	collapseBlockInput.style = "max-width:10em;";
+	if (category === "common") {
+		collapseBlockInput.checked = true;
+	}
+	collapseBlock.appendChild(collapseBlockInput);
+
+	let collapseBlockLabel = document.createElement('label');
+	collapseBlockLabel.htmlFor = "collapse-phrases-" + category;
+	collapseBlockLabel.ariaHidden = true;
+	collapseBlockLabel.style = "max-width:10em;";
+	collapseBlockLabel.innerText = name;
+	collapseBlock.appendChild(collapseBlockLabel);
+
+	let collapseBlockDiv = document.createElement('div');
+	collapseBlockDiv.style = "max-height:100%;";
+	collapseBlockDiv.id = "phraseButtons" + name;
+	collapseBlockDiv.className = "centero";
+	collapseBlockDiv.innerHTML = content;
+	collapseBlock.appendChild(collapseBlockDiv);
+
+	return collapseBlock;
 }
 
 function loadPhrasesDialog(phrases) {
@@ -336,10 +341,10 @@ function generatePhraseButtons(phrases, hasPictures) {
 	let output = "";
 	for (let x = 1; x < phrases.length; x++) {
 		if (Array.isArray(phrases[x])) {
-			//TODO this looks weird when shown in a collapse
-			//TODO the close button of a sub menu can collude with the parent's close button
 			let div = document.createElement('div');
-			let outputResult = generateDialog(phrases[x][0], generatePhraseButtons(phrases[x], hasPictures), div);
+			let outputResult = generateCollapse(phrases[x][0], generatePhraseButtons(phrases[x], hasPictures));
+			//When a dialog is in a dialog the close button can overlap causing conflict
+			//let outputResult = generateDialog(phrases[x][0], generatePhraseButtons(phrases[x], hasPictures), div);
 			div.appendChild(outputResult);
 			output += div.innerHTML;
 		} else if (phrases[x].startsWith("CAT:")) {
