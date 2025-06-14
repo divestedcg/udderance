@@ -211,7 +211,6 @@ function loadPhrases(phrases) {
 	} else {
 		loadPhrasesCollapse(phrases);
 	}
-
 }
 
 function loadPhrasesCollapse(phrases) {
@@ -290,6 +289,8 @@ function loadPhrasesDialog(phrases) {
 }
 
 function generateDialog(name, content, parent) {
+	//TODO handle click off to close
+	//TODO handle escape keypress to close
 	let category = name.toLowerCase();
 	let dialogToggleLabel = document.createElement('label');
 	dialogToggleLabel.htmlFor = "dialog-toggle-" + category;
@@ -336,7 +337,7 @@ function generatePhraseButtons(phrases, hasPictures) {
 	for (let x = 1; x < phrases.length; x++) {
 		if (Array.isArray(phrases[x])) {
 			//TODO this looks weird when shown in a collapse
-			//TODO the close button of a sub menu can collude with the parents close button
+			//TODO the close button of a sub menu can collude with the parent's close button
 			let div = document.createElement('div');
 			let outputResult = generateDialog(phrases[x][0], generatePhraseButtons(phrases[x], hasPictures), div);
 			div.appendChild(outputResult);
