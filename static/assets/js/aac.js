@@ -247,35 +247,7 @@ function loadPhrasesCollapse(phrases) {
 		collapseBlockDiv.style = "max-height:100%;";
 		collapseBlockDiv.id = "phraseButtons" + name;
 		collapseBlockDiv.className = "centero";
-		for (let x = 1; x < phrases[i].length; x++) {
-			if (phrases[i][x].startsWith("CAT:")) {
-				collapseBlockDiv.innerHTML += phrases[i][x].substring(4) + ": ";
-			} else if (phrases[i][x] === "[SEP]") {
-				collapseBlockDiv.innerHTML += "<br>";
-			} else {
-				let buttonImage = "";
-				let word = phrases[i][x];
-				if (document.getElementById('enablePictograms').checked && phrases === boardPresets[1]) {
-					if (wordPictureMap.has(word) && wordPictureMap.get(word).length > 0) {
-						let picture = wordPictureMap.get(word) + ".svg";
-						if (picture.includes(magicBase)) {
-							if (document.getElementById('femmePictograms').checked) {
-								picture = picture.replace(magicGenderWord, "lady").replace(magicGenderNum, "2");
-							} else {
-								picture = picture.replace(magicGenderWord, "man").replace(magicGenderNum, "1");
-							}
-							if (document.getElementById('darkPictograms').checked) {
-								picture = picture.replace(magicColorWord, "b");
-							} else {
-								picture = picture.replace(magicColorWord, "a");
-							}
-						}
-						buttonImage = "<img loading=\"lazy\" style=\"max-width: 48px\" src=\"/assets/mulberry-symbols/" + picture + "\"><br>";
-					}
-				}
-				collapseBlockDiv.innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + buttonImage + word + "</button>";
-			}
-		}
+		collapseBlockDiv.innerHTML = generatePhraseButtons(phrases[i]);
 		collapseBlock.appendChild(collapseBlockDiv);
 
 		phrasesInner.appendChild(collapseBlock);
@@ -346,41 +318,47 @@ function loadPhrasesDialog(phrases) {
 		dialogPhrasesDiv.style = "max-height:100%;";
 		dialogPhrasesDiv.id = "phraseButtons" + name;
 		dialogPhrasesDiv.className = "centero";
-		for (let x = 1; x < phrases[i].length; x++) {
-			if (phrases[i][x].startsWith("CAT:")) {
-				dialogPhrasesDiv.innerHTML += phrases[i][x].substring(4) + ": ";
-			} else if (phrases[i][x] === "[SEP]") {
-				dialogPhrasesDiv.innerHTML += "<br>";
-			} else {
-				let buttonImage = "";
-				let word = phrases[i][x];
-				if (document.getElementById('enablePictograms').checked && phrases === boardPresets[1]) {
-					if (wordPictureMap.has(word) && wordPictureMap.get(word).length > 0) {
-						let picture = wordPictureMap.get(word) + ".svg";
-						if (picture.includes(magicBase)) {
-							if (document.getElementById('femmePictograms').checked) {
-								picture = picture.replace(magicGenderWord, "lady").replace(magicGenderNum, "2");
-							} else {
-								picture = picture.replace(magicGenderWord, "man").replace(magicGenderNum, "1");
-							}
-							if (document.getElementById('darkPictograms').checked) {
-								picture = picture.replace(magicColorWord, "b");
-							} else {
-								picture = picture.replace(magicColorWord, "a");
-							}
-						}
-						buttonImage = "<img loading=\"lazy\" style=\"max-width: 48px\" src=\"/assets/mulberry-symbols/" + picture + "\"><br>";
-					}
-				}
-				dialogPhrasesDiv.innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + buttonImage + word + "</button>";
-			}
-		}
+		dialogPhrasesDiv.innerHTML = generatePhraseButtons(phrases[i]);
 		dialogBlockInnerCard.appendChild(dialogPhrasesDiv);
 
 		dialogBlockInner.appendChild(dialogBlockInnerCard);
 		phrasesInner.appendChild(dialogBlockInner);
 	}
 	document.getElementById("phrases").appendChild(phrasesInner);
+}
+
+function generatePhraseButtons(phrases) {
+	let output = "";
+	for (let x = 1; x < phrases.length; x++) {
+		if (phrases[x].startsWith("CAT:")) {
+			output += phrases[x].substring(4) + ": ";
+		} else if (phrases[x] === "[SEP]") {
+			output += "<br>";
+		} else {
+			let buttonImage = "";
+			let word = phrases[x];
+			if (document.getElementById('enablePictograms').checked && phrases === boardPresets[1]) {
+				if (wordPictureMap.has(word) && wordPictureMap.get(word).length > 0) {
+					let picture = wordPictureMap.get(word) + ".svg";
+					if (picture.includes(magicBase)) {
+						if (document.getElementById('femmePictograms').checked) {
+							picture = picture.replace(magicGenderWord, "lady").replace(magicGenderNum, "2");
+						} else {
+							picture = picture.replace(magicGenderWord, "man").replace(magicGenderNum, "1");
+						}
+						if (document.getElementById('darkPictograms').checked) {
+							picture = picture.replace(magicColorWord, "b");
+						} else {
+							picture = picture.replace(magicColorWord, "a");
+						}
+					}
+					buttonImage = "<img loading=\"lazy\" style=\"max-width: 48px\" src=\"/assets/mulberry-symbols/" + picture + "\"><br>";
+				}
+			}
+			output += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + buttonImage + word + "</button>";
+		}
+	}
+	return output;
 }
 
 function loadBoardPresets() {
