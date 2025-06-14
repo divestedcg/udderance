@@ -206,6 +206,15 @@ function removeChildren(element, removeParent) {
 }
 
 function loadPhrases(phrases) {
+	if (document.getElementById('boardStyleDialog').checked) {
+		loadPhrasesDialog(phrases);
+	} else {
+		loadPhrasesCollapse(phrases);
+	}
+
+}
+
+function loadPhrasesCollapse(phrases) {
 	document.getElementById("phrasesInner").remove();
 	let phrasesInner = document.createElement('div');
 	phrasesInner.id = "phrasesInner";
@@ -291,6 +300,87 @@ function loadPhrases(phrases) {
 				}
 			}
 	}
+}
+
+function loadPhrasesDialog(phrases) {
+	document.getElementById("phrasesInner").remove();
+	let phrasesInner = document.createElement('div');
+	phrasesInner.id = "phrasesInner";
+	phrasesInner.className = "centero";
+
+	//TODO: refactor this to handle recursive use for submenu generation
+	for(let i = 1; i < phrases.length; i++) {
+		let name = phrases[i][0];
+		let category = name.toLowerCase();
+
+		let dialogToggleLabel = document.createElement('label');
+		dialogToggleLabel.htmlFor = "dialog-toggle-" + category;
+		dialogToggleLabel.className = "button";
+		dialogToggleLabel.innerText = name;
+		phrasesInner.appendChild(dialogToggleLabel);
+
+		let dialogToggleCheckbox = document.createElement('input');
+		dialogToggleCheckbox.type = "checkbox";
+		dialogToggleCheckbox.className = "modal";
+		dialogToggleCheckbox.id = "dialog-toggle-" + category;
+		phrasesInner.appendChild(dialogToggleCheckbox);
+
+		let dialogBlockInner = document.createElement('div');
+		dialogBlockInner.className = "modal";
+		dialogBlockInner.style = "max-height:100%;";
+
+		let dialogBlockInnerCard = document.createElement('div');
+		dialogBlockInnerCard.className = "card large";
+		dialogBlockInnerCard.style = "max-height:100%;";
+
+		let dialogToggleClose = document.createElement('label');
+		dialogToggleClose.htmlFor = "dialog-toggle-" + category;
+		dialogToggleClose.className = "modal-close";
+		dialogBlockInnerCard.appendChild(dialogToggleClose);
+
+		let dialogBlockHeader = document.createElement('h3');
+		dialogBlockHeader.innerText = name;
+		dialogBlockInnerCard.appendChild(dialogBlockHeader);
+
+		let dialogPhrasesDiv = document.createElement('div');
+		dialogPhrasesDiv.style = "max-height:100%;";
+		dialogPhrasesDiv.id = "phraseButtons" + name;
+		dialogPhrasesDiv.className = "centero";
+		for (let x = 1; x < phrases[i].length; x++) {
+			if (phrases[i][x].startsWith("CAT:")) {
+				dialogPhrasesDiv.innerHTML += phrases[i][x].substring(4) + ": ";
+			} else if (phrases[i][x] === "[SEP]") {
+				dialogPhrasesDiv.innerHTML += "<br>";
+			} else {
+				let buttonImage = "";
+				let word = phrases[i][x];
+				if (document.getElementById('enablePictograms').checked && phrases === boardPresets[1]) {
+					if (wordPictureMap.has(word) && wordPictureMap.get(word).length > 0) {
+						let picture = wordPictureMap.get(word) + ".svg";
+						if (picture.includes(magicBase)) {
+							if (document.getElementById('femmePictograms').checked) {
+								picture = picture.replace(magicGenderWord, "lady").replace(magicGenderNum, "2");
+							} else {
+								picture = picture.replace(magicGenderWord, "man").replace(magicGenderNum, "1");
+							}
+							if (document.getElementById('darkPictograms').checked) {
+								picture = picture.replace(magicColorWord, "b");
+							} else {
+								picture = picture.replace(magicColorWord, "a");
+							}
+						}
+						buttonImage = "<img loading=\"lazy\" style=\"max-width: 48px\" src=\"/assets/mulberry-symbols/" + picture + "\"><br>";
+					}
+				}
+				dialogPhrasesDiv.innerHTML += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + buttonImage + word + "</button>";
+			}
+		}
+		dialogBlockInnerCard.appendChild(dialogPhrasesDiv);
+
+		dialogBlockInner.appendChild(dialogBlockInnerCard);
+		phrasesInner.appendChild(dialogBlockInner);
+	}
+	document.getElementById("phrases").appendChild(phrasesInner);
 }
 
 function loadBoardPresets() {
