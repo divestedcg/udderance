@@ -1,2 +1,5 @@
 - ServiceWorker to aggressively cache for more reliable offline use
 - More board presets
+- Dark mode
+- Dialog based phrase menus to support infinite sub menus
+	- This is necessary for more complex boards
