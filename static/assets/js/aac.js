@@ -89,6 +89,9 @@ function speakFreeformPrevious() {
 function speakText(text) {
 	text = text.trim();
 	if (text.length == 0) return;
+	if (text.includes("><br>")) {
+		text = text.split("><br>")[1].trim();
+	}
 	const previousLog = document.getElementById('textLog').value;
 	document.getElementById('textLog').value = new Date().toLocaleTimeString() + " - " + text + "\n" + previousLog;
 	adjustHeight(document.getElementById('textLog'));
