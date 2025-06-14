@@ -247,7 +247,7 @@ function loadPhrasesCollapse(phrases) {
 		collapseBlockDiv.style = "max-height:100%;";
 		collapseBlockDiv.id = "phraseButtons" + name;
 		collapseBlockDiv.className = "centero";
-		collapseBlockDiv.innerHTML = generatePhraseButtons(phrases[i]);
+		collapseBlockDiv.innerHTML = generatePhraseButtons(phrases[i], phrases[0].includes("🖼️"));
 		collapseBlock.appendChild(collapseBlockDiv);
 
 		phrasesInner.appendChild(collapseBlock);
@@ -282,7 +282,7 @@ function loadPhrasesDialog(phrases) {
 
 	for(let i = 1; i < phrases.length; i++) {
 		let name = phrases[i][0];
-		let content = generatePhraseButtons(phrases[i]);
+		let content = generatePhraseButtons(phrases[i], phrases[0].includes("🖼️"));
 		let dialog = generateDialog(name, content, phrasesInner);
 		phrasesInner.appendChild(dialog);
 	}
@@ -331,7 +331,7 @@ function generateDialog(name, content, parent) {
 	return dialogBlockInner;
 }
 
-function generatePhraseButtons(phrases) {
+function generatePhraseButtons(phrases, hasPictures) {
 	let output = "";
 	for (let x = 1; x < phrases.length; x++) {
 		//TODO handle submenu generation
@@ -342,7 +342,7 @@ function generatePhraseButtons(phrases) {
 		} else {
 			let buttonImage = "";
 			let word = phrases[x];
-			if (document.getElementById('enablePictograms').checked && phrases === boardPresets[1]) {
+			if (document.getElementById('enablePictograms').checked && hasPictures) {
 				if (wordPictureMap.has(word) && wordPictureMap.get(word).length > 0) {
 					let picture = wordPictureMap.get(word) + ".svg";
 					if (picture.includes(magicBase)) {

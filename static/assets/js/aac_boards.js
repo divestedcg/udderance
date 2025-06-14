@@ -20,7 +20,7 @@ phrasesDefault.push(["Fun", "honk honk", "swish swish swish", "how now brown cow
 /* END OF BOARD PRESET */
 
 /* START OF BOARD PRESET: Cboard Classic Home (GPL-3.0) [2025-06-13] */
-const phrasesCboardClassic = ["Cboard Classic Home (GPL-3.0)"];
+const phrasesCboardClassic = ["Cboard Classic Home 🖼️ (GPL-3.0)"];
 phrasesCboardClassic.push(["Common", "yes", "no", "hello", "goodbye", "good", "bad", "I can't speak", "thank you", "please"]);
 phrasesCboardClassic.push(["Time", "time", "now", "yesterday", "today", "tomorrow", "morning", "afternoon", "night", "day", "this week", "weekend", "next week", "this month", "next month", "last month", "one hour", "minute", "second"]);
 phrasesCboardClassic.push(["Food", "I'm hungry", "I want", "and", "I dislike", "[SEP]", "soup", "vegetables", "fruit", "pizza", "bread", "boiled egg", "fried egg", "croissant", "cereal", "porridge", "pancakes", "pasta", "poultry", "beef", "fish", "spaghetti bolognaise", "hamburger", "hot dog", "pie", "pepper mill", "salt", "tomato sauce", "vinegar", "sandwich", "bagel", "toast", "cheese", "noodles", "chips"]);
