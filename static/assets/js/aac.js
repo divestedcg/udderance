@@ -263,7 +263,6 @@ function loadPhrases(phrases) {
 						}
 					}
 				}
-				/* TODO fix this on Chromium */
 				if (this.checked) {
 					this.scrollIntoView();
 				}
@@ -319,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function(event){
 	document.getElementById('textInputFreeform').addEventListener("keydown", function (e) {
 		/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/16011365 */
 		/* https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values */
-		/* TODO fix this in Chromium on Android */
+		/* TODO fix speakSpace in Chromium on Android */
 		if (e.key === "Enter" || (e.key === " " && document.getElementById('speakSpace').checked)) {
 			speakFreeform();
 			document.getElementById('textInputFreeform').value = "";
