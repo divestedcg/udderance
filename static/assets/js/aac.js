@@ -265,7 +265,7 @@ function generateCollapse(name, content) {
 	collapseBlockLabel.htmlFor = "collapse-phrases-" + category;
 	collapseBlockLabel.ariaHidden = true;
 	collapseBlockLabel.style = "max-width:10em;";
-	collapseBlockLabel.innerText = name;
+	collapseBlockLabel.innerText = getTranslatedText(name);
 	collapseBlock.appendChild(collapseBlockLabel);
 
 	let collapseBlockDiv = document.createElement('div');
@@ -300,7 +300,7 @@ function generateDialog(name, content, parent) {
 	let dialogToggleLabel = document.createElement('label');
 	dialogToggleLabel.htmlFor = "dialog-toggle-" + category;
 	dialogToggleLabel.className = "button";
-	dialogToggleLabel.innerText = name;
+	dialogToggleLabel.innerText = getTranslatedText(name);
 	parent.appendChild(dialogToggleLabel);
 
 	let dialogToggleCheckbox = document.createElement('input');
@@ -323,7 +323,7 @@ function generateDialog(name, content, parent) {
 	dialogBlockInnerCard.appendChild(dialogToggleClose);
 
 	let dialogBlockHeader = document.createElement('h3');
-	dialogBlockHeader.innerText = name;
+	dialogBlockHeader.innerText = getTranslatedText(name);
 	dialogBlockInnerCard.appendChild(dialogBlockHeader);
 
 	let dialogPhrasesDiv = document.createElement('div');
@@ -372,7 +372,7 @@ function generatePhraseButtons(phrases, hasPictures) {
 					buttonImage = "<img loading=\"lazy\" style=\"max-width: 48px\" src=\"/assets/mulberry-symbols/" + picture + "\"><br>";
 				}
 			}
-			output += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + buttonImage + word + "</button>";
+			output += "<button onclick=\"speakText(this.innerHTML)\" class=\"small\">" + buttonImage + getTranslatedText(word) + "</button>";
 		}
 	}
 	return output;
@@ -392,11 +392,51 @@ function loadBoardPresets() {
 function updateBoardPreset(value) {
 	loadPhrases(boardPresets[value]);
 	localStorage.setItem('boardPreset', boardPresets[value][0]);
-	document.getElementById("collapse-phrases-common").scrollIntoView();
+	if (!document.getElementById('boardStyleDialog').checked) {
+		document.getElementById("collapse-phrases-common").scrollIntoView();
+	}
+}
+
+let languageMap = null;
+
+function getTranslatedText(text) {
+	if (languageMap) {
+		if (languageMap.has(text) && languageMap.get(text).length > 0) {
+			return languageMap.get(text);
+		}
+	}
+	return text;
+}
+
+function updateBoardLanguage(value) {
+	languageMap = languageMaps[value];
+	localStorage.setItem('boardLanguage', languageMaps[value].get(languageMapMagicLanguageCode));
+	loadLastBoard();
+}
+
+function loadLastLanguage() {
+	let language = localStorage.getItem('boardLanguage') || "English";
+	for(let i = 0; i < languageMaps.length; i++) {
+		if (languageMaps[i].get(languageMapMagicLanguageCode) === language) {
+			languageMap = languageMaps[i];
+			document.getElementById("boardLanguage").selectedIndex = i;
+		}
+	}
+}
+
+function initLanguages() {
+	removeChildren(document.getElementById('boardLanguage'), false);
+
+	for(let i = 0; i < languageMaps.length; i++) {
+		let option = document.createElement('option');
+		option.value = i;
+		option.innerHTML = languageMaps[i].get(languageMapMagicLanguage) + " (" + languageMaps[i].get(languageMapMagicLanguageCode) + ")";
+		document.getElementById('boardLanguage').appendChild(option);
+	}
 }
 
 function loadLastBoard() {
-	let boardPreset = localStorage.getItem('boardPreset') || "Default (CC0) [en]";
+	let boardPreset = localStorage.getItem('boardPreset') || "Default (CC0)";
 	for(let i = 0; i < boardPresets.length; i++) {
 		if (boardPresets[i][0] === boardPreset) {
 			loadPhrases(boardPresets[i]);
@@ -463,6 +503,8 @@ document.addEventListener("DOMContentLoaded", function(event){
 
 	loadBoardPresets();
 	loadPictogramSettings();
+	initLanguages();
+	loadLastLanguage();
 	loadLastBoard();
 
 	if (window['speechSynthesis'] === undefined /* || numVoicesAdded === 0 */) {

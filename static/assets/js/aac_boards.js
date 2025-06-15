@@ -1,7 +1,7 @@
 const boardPresets = [];
 
 /* START OF BOARD PRESET */
-const phrasesDefaultEn = ["Default (CC0) [en]"];
+const phrasesDefaultEn = ["Default (CC0)"];
 phrasesDefaultEn.push(["Common", "yes", "no", "okay", "[SEP]",
 			"I don't know", "I don't understand", "[SEP]",
 			"what?", "why?", "how?", "[SEP]",

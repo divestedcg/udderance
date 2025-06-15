@@ -44,6 +44,8 @@ done;
 ln -sf pages/home.html output/index.html;
 ln -sf ../assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.data output/pages/sherpa-onnx-wasm-main-tts.data;
 
+cat translations/aac_language_map_*.js > output/assets/js/aac_language_map_merged.js;
+
 if command -v pagefind &> /dev/null; then
 	fjnn pagefind --site output/pages;
 else
