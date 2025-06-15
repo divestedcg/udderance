@@ -45,11 +45,11 @@
 						<label for="boardLanguage">Board Language: </label>
 						<select name="boardLanguage" id="boardLanguage" onchange="updateBoardLanguage(this.selectedIndex)"></select>
 						<br>
-						<label for="boardAutoCollapse">Automatic board collapse: </label>
-						<input type="checkbox" name="boardAutoCollapse" id="boardAutoCollapse" checked>
-						<br>
-						<label for="boardStyleDialog">Use dialog instead of collapse for phrases: </label>
-						<input type="checkbox" name="boardStyleDialog" id="boardStyleDialog" onchange="loadLastBoard()" checked>
+						<label for="boardAutoCollapse" hidden>Automatic board collapse: </label>
+						<input type="checkbox" name="boardAutoCollapse" id="boardAutoCollapse" checked disabled hidden>
+						<br hidden>
+						<label for="boardStyleDialog" hidden>Use dialog instead of collapse for phrases: </label>
+						<input type="checkbox" name="boardStyleDialog" id="boardStyleDialog" onchange="loadLastBoard()" checked disable hidden>
 						<hr>
 						<label for="enablePictograms">Enable pictograms from Mulberry Symbols: </label>
 						<input type="checkbox" name="enablePictograms" id="enablePictograms" onchange="handlePictogramToggle()">

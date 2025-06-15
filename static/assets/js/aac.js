@@ -511,9 +511,10 @@ document.addEventListener("DOMContentLoaded", function(event){
 		}
 	}
 
-	if (isSafari) {
-		document.getElementById('enablePictograms').disabled = true;
-	}
+	//Images are not lazy loaded when using the collapse view causing overload
+	//if (isSafari) {
+	//	document.getElementById('enablePictograms').disabled = true;
+	//}
 
 	if (!wasmSupported || isSafari) {
 		document.getElementById('useSherpa').disabled = true;
