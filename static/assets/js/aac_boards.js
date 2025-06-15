@@ -24,7 +24,7 @@ boardPresets.push(phrasesDefaultEn);
 
 /* START OF BOARD PRESET */
 /* Imported on 2025-06-13 */
-const phrasesCboardClassicEn = ["Cboard Classic Home 🖼️ (GPL-3.0) [en]"];
+const phrasesCboardClassicEn = ["Cboard Classic Home 🖼️ (GPL-3.0)"];
 phrasesCboardClassicEn.push(["Common", "yes", "no", "hello", "goodbye", "good", "bad", "I can't speak", "thank you", "please"]);
 phrasesCboardClassicEn.push(["Time", "time", "now", "yesterday", "today", "tomorrow", "morning", "afternoon", "night", "day", "this week", "weekend", "next week", "this month", "next month", "last month", "one hour", "minute", "second"]);
 phrasesCboardClassicEn.push(["Food", "I'm hungry", "I want", "and", "I dislike", "[SEP]", "soup", "vegetables", "fruit", "pizza", "bread", "boiled egg", "fried egg", "croissant", "cereal", "porridge", "pancakes", "pasta", "poultry", "beef", "fish", "spaghetti bolognaise", "hamburger", "hot dog", "pie", "pepper mill", "salt", "tomato sauce", "vinegar", "sandwich", "bagel", "toast", "cheese", "noodles", "chips"]);
