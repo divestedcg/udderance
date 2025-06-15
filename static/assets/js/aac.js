@@ -78,7 +78,6 @@ function speakFreeform() {
 	document.getElementById('textInputFreeformPrevious').value = text;
 	document.getElementById('textInputFreeform').value = "";
 	document.getElementById('textInputFreeform').focus();
-	/* document.getElementById("textInputFreeform").scrollIntoView(); */
 	speakText(text);
 }
 
@@ -392,9 +391,6 @@ function loadBoardPresets() {
 function updateBoardPreset(value) {
 	loadPhrases(boardPresets[value]);
 	localStorage.setItem('boardPreset', boardPresets[value][0]);
-	if (!document.getElementById('boardStyleDialog').checked) {
-		document.getElementById("collapse-phrases-common").scrollIntoView();
-	}
 }
 
 let languageMap = null;
