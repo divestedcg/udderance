@@ -140,7 +140,7 @@ languageMapTr.set(languageMapMagicLanguage, "Turkish");
 languageMapTr.set(languageMapMagicLanguageCode, "tr");
 
 const languageMapUk = new Map();
-languageMapUk.set(languageMapMagicLanguage, "Ukrainian");
+languageMapUk.set(languageMapMagicLanguage, "Ukranian");
 languageMapUk.set(languageMapMagicLanguageCode, "uk");
 
 const languageMapVi = new Map();
