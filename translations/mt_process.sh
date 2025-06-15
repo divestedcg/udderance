@@ -1,35 +1,35 @@
-sh mt_helper.sh Arabic
-sh mt_helper.sh Bengali
-sh mt_helper.sh Bulgarian
-sh mt_helper.sh Catalan
-sh mt_helper.sh Chinese
-sh mt_helper.sh Croatian
-sh mt_helper.sh Czech
-sh mt_helper.sh Danish
-sh mt_helper.sh Dutch
-sh mt_helper.sh Finnish
-sh mt_helper.sh French
-sh mt_helper.sh German
-sh mt_helper.sh Greek
-sh mt_helper.sh Hebrew
-sh mt_helper.sh Hindi
-sh mt_helper.sh Hungarian
-sh mt_helper.sh Indonesian
-sh mt_helper.sh Italian
-sh mt_helper.sh Japanese
-sh mt_helper.sh Korean
-sh mt_helper.sh Malay
-sh mt_helper.sh Norwegian Bokmål
-sh mt_helper.sh Polish
-sh mt_helper.sh Portuguese
-sh mt_helper.sh Romanian
-sh mt_helper.sh Russian
-sh mt_helper.sh Slovak
-sh mt_helper.sh Slovenian
-sh mt_helper.sh Spanish
-sh mt_helper.sh Swedish
-sh mt_helper.sh Tamil
-sh mt_helper.sh Thai
-sh mt_helper.sh Turkish
-sh mt_helper.sh Ukrainian
-sh mt_helper.sh Vietnamese
+sh mt_helper.sh Arabic ar
+sh mt_helper.sh Bengali bn
+sh mt_helper.sh Bulgarian bg
+sh mt_helper.sh Catalan ca
+sh mt_helper.sh Chinese zh
+sh mt_helper.sh Croatian hr
+sh mt_helper.sh Czech cs
+sh mt_helper.sh Danish da
+sh mt_helper.sh Dutch nl
+sh mt_helper.sh Finnish fi
+sh mt_helper.sh French fr
+sh mt_helper.sh German de
+sh mt_helper.sh Greek el
+sh mt_helper.sh Hebrew he
+sh mt_helper.sh Hindi hi
+sh mt_helper.sh Hungarian hu
+sh mt_helper.sh Indonesian id
+sh mt_helper.sh Italian it
+sh mt_helper.sh Japanese ja
+sh mt_helper.sh Korean ko
+sh mt_helper.sh Malay ms
+sh mt_helper.sh Norwegian nb
+sh mt_helper.sh Polish pl
+sh mt_helper.sh Portuguese pt
+sh mt_helper.sh Romanian ro
+sh mt_helper.sh Russian ru
+sh mt_helper.sh Slovak sk
+sh mt_helper.sh Slovenian sl
+sh mt_helper.sh Spanish es
+sh mt_helper.sh Swedish sv
+sh mt_helper.sh Tamil ta
+sh mt_helper.sh Thai th
+sh mt_helper.sh Turkish tr
+sh mt_helper.sh Ukranian uk
+sh mt_helper.sh Vietnamese vi

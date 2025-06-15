@@ -11,7 +11,8 @@ phrasesDefaultEn.push(["Common", "yes", "no", "okay", "[SEP]",
 			"please", "thank you", "[SEP]",
 			"yesterday", "today", "tomorrow", "[SEP]",
 			"day", "night", "morning", "afternoon", "[SEP]",
-			"I am hungry", "I am thirsty", "I am tired", "I need the bathroom", "[SEP]"
+			"I am hungry", "I am thirsty", "I am tired", "I need the bathroom", "[SEP]",
+			"It is difficult to speak", "I can't speak"
 			]);
 phrasesDefaultEn.push(["Numbers", "0", "1", "2", "3", "4", "[SEP]", "5", "6", "7", "8", "9"]);
 phrasesDefaultEn.push(["Foods", "I want", "I need", "[SEP]", "biscuits", "bread", "broccoli", "burger", "cereal", "chicken", "corn", "eggs", "french fries", "grilled cheese", "hash browns", "hot dogs", "mac and cheese", "pancakes", "pasta", "peanut butter and jelly", "pizza", "potatoes", "ramen", "rice", "sandwich", "sausage", "soup", "string beans", "toast", "waffles"]);

@@ -42,9 +42,9 @@ done;
 #brotli -k output/pages/*.html output/assets/css/*.css output/assets/js/*.js;
 
 ln -sf pages/home.html output/index.html;
-ln -sf ../assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.data output/pages/sherpa-onnx-wasm-main-tts.data;
+ln -sf ../assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.data output/pages/sherpa-onnx-wasm-main-tts.data; #TODO remove this hack
 
-cat translations/aac_language_map_*.js > output/assets/js/aac_language_map_merged.js;
+cat translations/language_map_*.js > output/assets/js/aac_language_map_merged.js; #TODO compress this
 
 if command -v pagefind &> /dev/null; then
 	fjnn pagefind --site output/pages;

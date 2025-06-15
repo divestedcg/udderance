@@ -397,7 +397,7 @@ let languageMap = null;
 
 function getTranslatedText(text) {
 	if (languageMap) {
-		if (languageMap.has(text) && languageMap.get(text).length > 0) {
+		if (languageMap.has(text)) {
 			return languageMap.get(text);
 		}
 	}
