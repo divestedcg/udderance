@@ -69,3 +69,11 @@ phrasesCboardClassicEn.push(["Hygiene", "toothbrush", "toothpaste", "soap", "tow
 phrasesCboardClassicEn.push(["Numbers", "0", "1", "2", "3", "4", "[SEP]", "5", "6", "7", "8", "9"]);
 boardPresets.push(phrasesCboardClassicEn);
 /* END OF BOARD PRESET */
+
+/* START OF BOARD PRESET */
+const phrasesNestingExample = ["Nesting Example"];
+const phrasesNestingExampleSubSub = ["AAA", "aaa1", "aaa2", "aaa3"];
+const phrasesNestingExampleSub = ["AA", phrasesNestingExampleSubSub, "aa1", "aa2", "aa3"];
+phrasesNestingExample.push(["A", phrasesNestingExampleSub, "a1", "a2", "a3"]);
+//boardPresets.push(phrasesNestingExample);
+/* END OF BOARD PRESET */
