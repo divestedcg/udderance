@@ -44,6 +44,7 @@ done;
 ln -sf pages/home.html output/index.html;
 ln -sf ../assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.data output/pages/sherpa-onnx-wasm-main-tts.data; #TODO remove this hack
 
+#TODO check this against the available boards and strip out unused phrases
 cat translations/language_map_*.js > output/assets/js/aac_language_map_merged.js;
 
 if command -v pagefind &> /dev/null; then
