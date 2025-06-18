@@ -6,7 +6,6 @@ If you've found an issue please file an issue or pull request.
 
 assets/css/mini-*.min.css - MIT - v3.0.1 - https://github.com/Chalarangelo/mini.css
 assets/fonts/fira* - OFL - https://github.com/mozilla/Fira
-assets/js/aac_boards.js - various - see file contents
 assets/js/aac_pictogram_map*.js - CC0
 assets/mulberry-symbols - CC BY-SA 4.0 - https://github.com/mulberrysymbols/mulberry-symbols
 assets/sherpa-onnx - various
@@ -14,6 +13,7 @@ assets/sherpa-onnx - various
 	Onnx - Apache-2.0 - https://github.com/onnx/onnx
 	Piper - MIT - https://github.com/rhasspy/piper
 	LibriTTS-R - CC BY 4.0 - https://www.openslr.org/141
+boards/board_1*.js - various - see file contents
 images/favicon.png - CC0 - https://www.svgrepo.com/svg/144475/ufo-and-cow
 images/ucss.svg - CC0 - https://www.svgrepo.com/svg/144475/ufo-and-cow
 translations/language_map_100-*.js - CC0

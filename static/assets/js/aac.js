@@ -219,7 +219,7 @@ function loadPhrasesCollapse(phrases) {
 
 	for(let i = 1; i < phrases.length; i++) {
 		let name = phrases[i][0];
-		let collapse = generateCollapse(name, generatePhraseButtons(phrases[i], phrases[0].includes("🖼️")));
+		let collapse = generateCollapse(name, name.toLowerCase(), generatePhraseButtons(phrases[i], phrases[0].includes("🖼️")));
 		phrasesInner.appendChild(collapse);
 	}
 	document.getElementById("phrases").appendChild(phrasesInner);
@@ -244,26 +244,23 @@ function loadPhrasesCollapse(phrases) {
 	}
 }
 
-function generateCollapse(name, content) {
-	let category = name.toLowerCase();
+function generateCollapse(name, id, content) {
 	let collapseBlock = document.createElement('div');
 	collapseBlock.className = "collapse";
 
 	let collapseBlockInput = document.createElement('input');
 	collapseBlockInput.type = "checkbox";
 	collapseBlockInput.className = "phraseCollapse";
-	collapseBlockInput.id = "collapse-phrases-" + category;
+	collapseBlockInput.id = "collapse-phrases-" + id;
 	collapseBlockInput.ariaHidden = true;
-	collapseBlockInput.style = "max-width:10em;";
-	if (category === "common") {
+	if (id === "common") { //TODO verify this still works
 		collapseBlockInput.checked = true;
 	}
 	collapseBlock.appendChild(collapseBlockInput);
 
 	let collapseBlockLabel = document.createElement('label');
-	collapseBlockLabel.htmlFor = "collapse-phrases-" + category;
+	collapseBlockLabel.htmlFor = "collapse-phrases-" + id;
 	collapseBlockLabel.ariaHidden = true;
-	collapseBlockLabel.style = "max-width:10em;";
 	collapseBlockLabel.innerText = getTranslatedText(name);
 	collapseBlock.appendChild(collapseBlockLabel);
 
@@ -285,27 +282,34 @@ function loadPhrasesDialog(phrases) {
 
 	for(let i = 1; i < phrases.length; i++) {
 		let name = phrases[i][0];
-		let content = generatePhraseButtons(phrases[i], phrases[0].includes("🖼️"));
-		let dialog = generateDialog(name, content, phrasesInner);
-		phrasesInner.appendChild(dialog);
+
+		if (phrases[0].includes("🔝")) {
+			let boardDiv = document.createElement('div');
+			let content = generatePhraseButtons(phrases[i], phrases[0].includes("🖼️"), true, phrases[i][0]);
+			boardDiv.innerHTML = content;
+			phrasesInner.appendChild(boardDiv);
+		} else {
+			let content = generatePhraseButtons(phrases[i], phrases[0].includes("🖼️"), false, phrases[i][0]);
+			let dialog = generateDialog(name, name.toLowerCase(), content, phrasesInner);
+			phrasesInner.appendChild(dialog);
+		}
 	}
 	document.getElementById("phrases").appendChild(phrasesInner);
 }
 
-function generateDialog(name, content, parent) {
+function generateDialog(name, id, content, parent) {
 	//TODO handle click off to close
 	//TODO handle escape keypress to close
-	let category = name.toLowerCase();
 	let dialogToggleLabel = document.createElement('label');
-	dialogToggleLabel.htmlFor = "dialog-toggle-" + category;
-	dialogToggleLabel.className = "button";
+	dialogToggleLabel.htmlFor = "dialog-toggle-" + id;
+	dialogToggleLabel.className = "button primary";
 	dialogToggleLabel.innerText = getTranslatedText(name);
 	parent.appendChild(dialogToggleLabel);
 
 	let dialogToggleCheckbox = document.createElement('input');
 	dialogToggleCheckbox.type = "checkbox";
 	dialogToggleCheckbox.className = "modal";
-	dialogToggleCheckbox.id = "dialog-toggle-" + category;
+	dialogToggleCheckbox.id = "dialog-toggle-" + id;
 	parent.appendChild(dialogToggleCheckbox);
 
 	let dialogBlockInner = document.createElement('div');
@@ -317,7 +321,7 @@ function generateDialog(name, content, parent) {
 	dialogBlockInnerCard.style = "max-height:100%;";
 
 	let dialogToggleClose = document.createElement('label');
-	dialogToggleClose.htmlFor = "dialog-toggle-" + category;
+	dialogToggleClose.htmlFor = "dialog-toggle-" + id;
 	dialogToggleClose.className = "modal-close";
 	dialogBlockInnerCard.appendChild(dialogToggleClose);
 
@@ -336,14 +340,19 @@ function generateDialog(name, content, parent) {
 	return dialogBlockInner;
 }
 
-function generatePhraseButtons(phrases, hasPictures) {
+function generatePhraseButtons(phrases, hasPictures, useDialog, category) {
 	let output = "";
 	for (let x = 1; x < phrases.length; x++) {
 		if (Array.isArray(phrases[x])) {
 			let div = document.createElement('div');
-			let outputResult = generateCollapse(phrases[x][0], generatePhraseButtons(phrases[x], hasPictures));
 			//When a dialog is in a dialog the close button can overlap causing conflict
-			//let outputResult = generateDialog(phrases[x][0], generatePhraseButtons(phrases[x], hasPictures), div);
+			let outputResult = "";
+			let newCategory = category + phrases[x][0];
+			if(useDialog) {
+				outputResult = generateDialog(phrases[x][0], newCategory, generatePhraseButtons(phrases[x], hasPictures, false, newCategory), div);
+			} else {
+				outputResult = generateCollapse(phrases[x][0], newCategory, generatePhraseButtons(phrases[x], hasPictures, false, newCategory));
+			}
 			div.appendChild(outputResult);
 			output += div.innerHTML;
 		} else if (phrases[x].startsWith("CAT:")) {
@@ -432,7 +441,7 @@ function initLanguages() {
 }
 
 function loadLastBoard() {
-	let boardPreset = localStorage.getItem('boardPreset') || "Default (CC0)";
+	let boardPreset = localStorage.getItem('boardPreset') || "Default (CC0) 🌐";
 	for(let i = 0; i < boardPresets.length; i++) {
 		if (boardPresets[i][0] === boardPreset) {
 			loadPhrases(boardPresets[i]);
