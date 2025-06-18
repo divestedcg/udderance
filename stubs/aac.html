@@ -62,16 +62,18 @@
 						<hr>
 						<label for="voice">Voice: </label>
 						<select name="voice" id="voice" onchange="updateVoice()"></select>
-						<hr>
-						<p>Sherpa is available as an alternative to the system's native TTS backend. It requires a 110MB download (program + vits-piper-en_US-libritts_r-medium model). Longer prompts can be slow to generate. 904 voice variants are available.</p>
-						<label for="useSherpa">Use Sherpa: </label>
-						<input type="checkbox" name="useSherpa" id="useSherpa" onclick="handleSherpaToggle()">
-						<br>
-						<label for="sherpaSpeakerID">Sherpa Speaker ID: </label>
-						<input type="number" name="sherpaSpeakerID" id="sherpaSpeakerID" min="0" max="904" value="0">
-						<br>
-						<label for="sherpaSpeed">Sherpa Speed: </label>
-						<input type="number" name="sherpaSpeed" id="sherpaSpeed" min="0.4" max="3.5" step="0.1" value="1.0">
+						<div id="optionsSherpa">
+							<hr>
+							<p>Sherpa is available as an alternative to the system's native TTS backend. It requires a 110MB download (program + vits-piper-en_US-libritts_r-medium model). Longer prompts can be slow to generate. 904 voice variants are available.</p>
+							<label for="useSherpa">Use Sherpa: </label>
+							<input type="checkbox" name="useSherpa" id="useSherpa" onclick="handleSherpaToggle()">
+							<br>
+							<label for="sherpaSpeakerID">Sherpa Speaker ID: </label>
+							<input type="number" name="sherpaSpeakerID" id="sherpaSpeakerID" min="0" max="904" value="0">
+							<br>
+							<label for="sherpaSpeed">Sherpa Speed: </label>
+							<input type="number" name="sherpaSpeed" id="sherpaSpeed" min="0.4" max="3.5" step="0.1" value="1.0">
+						</div>
 					</div>
 				</div>
 				<script src="/assets/js/aac_boards.js" type="text/javascript"></script>

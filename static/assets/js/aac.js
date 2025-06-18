@@ -561,5 +561,6 @@ document.addEventListener("DOMContentLoaded", function(event){
 
 	if (!wasmSupported || isSafari) {
 		document.getElementById('useSherpa').disabled = true;
+		document.getElementById('optionsSherpa').hidden = true;
 	}
 });
