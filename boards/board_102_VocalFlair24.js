@@ -1,3 +1,4 @@
+//https://openboards.s3.amazonaws.com/examples/vocal-flair-24.obz
 const phrasesVocalFlair24 = ["Vocal Flair 24 by OpenAAC (CC BY 4.0) 🔝"];
 const phrasesVocalFlair24Sub1_1562707 = ["questions", "question", "answer", "reason", "who", "what", "where", "why", "when", "how", "What are you doing?", "Can I have a turn?", "What time is it?", "is", "can", "could", "were", "was", "may", "[common questions]", "are", "will", "should", "do", "how much", "am", "did", "would", "does", "how many", "has", "have", "will", "do"];
 const phrasesVocalFlair24Sub1_1562708Sub1_1562742 = ["school people", "therapist", "aide", "teacher", "student", "principal", "crossing guard", "lunch worker", "janitor", "[my classmates]"];

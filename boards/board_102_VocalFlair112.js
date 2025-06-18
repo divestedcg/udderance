@@ -1,3 +1,4 @@
+//https://openboards.s3.amazonaws.com/examples/vocal-flair-112.obz
 const phrasesVocalFlair112 = ["Vocal Flair 112 by OpenAAC (CC BY 4.0) 🔝"];
 const phrasesVocalFlair112Sub1_1860363 = ["questions", "question", "answer", "reason", "who", "what", "where", "why", "when", "how", "What are you doing?", "Can I have a turn?", "What time is it?", "is", "can", "could", "were", "was", "may", "[common questions]", "are", "will", "should", "do", "how much", "am", "did", "would", "does", "how many", "has", "have", "shall", "had", "might", "must", "be", "been", "being", "explain", "How are you?", "Can you repeat that?"];
 const phrasesVocalFlair112Sub1_1860364Sub1_1860398 = ["school people", "therapist", "aide", "teacher", "student", "principal", "crossing guard", "lunch worker", "janitor", "[my classmates]", "librarian", "nurse", "secretary", "counselor", "[my teachers]"];

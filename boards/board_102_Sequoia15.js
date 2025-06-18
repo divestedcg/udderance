@@ -1,3 +1,4 @@
+//https://openboards.s3.amazonaws.com/examples/sequoia-15.obz
 const phrasesSequoia15 = ["Sequoia 15 by OpenAAC (CC BY 4.0) 🔝"];
 const phrasesSequoia15Sub1_1196697Sub1_1196733Sub1_1196720 = ["numbers", "1", "2", "3", "0", "4", "5", "6", "10", "7", "8", "9", "space"];
 const phrasesSequoia15Sub1_1196697Sub1_1196733Sub1_1196891 = ["abcde", "a", "b", "c", "d", "e"];

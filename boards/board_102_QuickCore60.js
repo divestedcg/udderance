@@ -1,3 +1,4 @@
+//https://openboards.s3.amazonaws.com/examples/quick-core-60.obz
 const phrasesQuickCore60 = ["Quick Core 60 by OpenAAC (CC BY 4.0) 🔝"];
 const phrasesQuickCore60Sub1_1161Sub1_2277383 = ["private parts", "penis", "breast", "vagina", "private parts"];
 const phrasesQuickCore60Sub1_1161 = ["me", "I'd", "me", "my", "head", "hair", "beard", "skull", "brain", "voice", "skin", "I'll", "mine", "sweat", "face", "ear", "eye", "eyebrow", "chin", "bone", "blood", "I'm", "myself", "smile", "neck", "mouth", "teeth", "tongue", "nose", "naked", "body", "yawn", "chest", "back", "arm", "elbow", "heart", "cough", "sneeze", "saliva", "wink", "bottom", phrasesQuickCore60Sub1_1161Sub1_2277383, "hand", "finger", "fingernail", "fart", "throw up", "pus", "sex", "bleed", "leg", "foot", "toe", "toenail", "skin", "pee", "poop"];

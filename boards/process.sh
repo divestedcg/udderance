@@ -1,0 +1,14 @@
+python obf_converter.py CommuniKate12 boards/ck12/boards/toppage.obf > board_103_CommuniKate12.js
+python obf_converter.py CommuniKate20 boards/communikate-20/board_1_235.obf > board_103_CommuniKate20.js
+python obf_converter.py ProjectCore36 boards/project-core.obf > board_104_ProjectCore36.js
+python obf_converter.py QuickCore112 boards/quick-core-112/board_1_398.obf > board_102_QuickCore112.js
+python obf_converter.py QuickCore24 boards/quick-core-24/board_1_403.obf > board_102_QuickCore24.js
+python obf_converter.py QuickCore40 boards/quick-core-40/board_1_1971273.obf > board_102_QuickCore40.js
+python obf_converter.py QuickCore60 boards/quick-core-60/board_1_416.obf > board_102_QuickCore60.js
+python obf_converter.py QuickCore84 boards/quick-core-84/board_1_1978122.obf > board_102_QuickCore84.js
+python obf_converter.py Sequoia15 boards/sequoia-15/board_1_1196696.obf > board_102_Sequoia15.js
+python obf_converter.py VocalFlair112 boards/vocal-flair-112/board_1_1860362.obf > board_102_VocalFlair112.js
+python obf_converter.py VocalFlair24 boards/vocal-flair-24/board_1_1562706.obf > board_102_VocalFlair24.js
+python obf_converter.py VocalFlair40 boards/vocal-flair-40/board_1_1543045.obf > board_102_VocalFlair40.js
+python obf_converter.py VocalFlair60 boards/vocal-flair-60/board_1_1196942.obf > board_102_VocalFlair60.js
+python obf_converter.py VocalFlair84 boards/vocal-flair-84/board_1_1955093.obf > board_102_VocalFlair84.js

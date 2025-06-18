@@ -1,3 +1,4 @@
+//https://openboards.s3.amazonaws.com/examples/communikate-20.obz
 const phrasesCommuniKate20 = ["CommuniKate 20 by Kate McCallum (CC BY-NC-SA 3.0) 🔝"];
 const phrasesCommuniKate20Sub1_236Sub1_249Sub1_308 = ["About You", "What's your name?", "Where do you live?", "When's your birthday?", "How old are you?", "Who do you live with?", "Do you have a pet?", "Tell me about your day?", "What's your email?", "Where do you work?", "What's your mobile number?", "What music do you like?", "What films do you like?", "What's your hobby?", "What TV do you like?", "Do you have a disability?"];
 const phrasesCommuniKate20Sub1_236Sub1_249 = ["About Me", "Name", "I live in...", "Birthday...", "age...", "I live with...", "pet.. ", "School college...", "email..", "work...", "communication aid..", "music..", "film..", "hobby..", "tv...", "disability...", "mobile...", phrasesCommuniKate20Sub1_236Sub1_249Sub1_308];

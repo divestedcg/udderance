@@ -1,3 +1,4 @@
+//https://openboards.s3.amazonaws.com/examples/quick-core-40.obz
 const phrasesQuickCore40 = ["Quick Core 40 by OpenAAC (CC BY 4.0) 🔝"];
 const phrasesQuickCore40Sub1_1971288Sub1_2277982 = ["private parts", "penis", "breast", "vagina", "private parts"];
 const phrasesQuickCore40Sub1_1971288Sub1_1974432 = ["organ", "ear drum", "skull", "brain", "jaw", "kidney", "liver", "stomach", "lung", "heart", "organ", "skin", "blood", "bladder", "intestines", "spine", "cartilage", "bone", "muscle", "tendon"];

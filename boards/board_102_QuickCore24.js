@@ -1,3 +1,4 @@
+//https://openboards.s3.amazonaws.com/examples/quick-core-24.obz
 const phrasesQuickCore24 = ["Quick Core 24 by OpenAAC (CC BY 4.0) 🔝"];
 const phrasesQuickCore24Sub1_404Sub1_14464 = ["get", "put", "keep", "pick", "choose", "hold", "get", "find"];
 const phrasesQuickCore24Sub1_404 = ["do", "action", "do", "like", "have", "feel", "love", "help", "come", "need", "try", "wait", "smell", phrasesQuickCore24Sub1_404Sub1_14464, "make", "use", "sleep", "wake", "see", "know", "read"];

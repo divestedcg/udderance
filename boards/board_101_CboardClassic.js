@@ -1,4 +1,4 @@
-/* Imported on 2025-06-13 */
+//https://github.com/cboard-org/cboard/blob/2824ecf9f7749a5fe55a5af39dce66b2675663ac/src/api/boards.json
 const phrasesCboardClassicEn = ["Classic Home by Cboard (GPL-3.0) 🌐🖼️"];
 phrasesCboardClassicEn.push(["Common", "yes", "no", "hello", "goodbye", "good", "bad", "I can't speak", "thank you", "please"]);
 phrasesCboardClassicEn.push(["Time", "time", "now", "yesterday", "today", "tomorrow", "morning", "afternoon", "night", "day", "this week", "weekend", "next week", "this month", "next month", "last month", "one hour", "minute", "second"]);
