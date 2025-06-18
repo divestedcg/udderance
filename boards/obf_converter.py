@@ -24,6 +24,7 @@ def parseBoardIntoMap(name, file, isSubBoard, subBoardTitle):
 				parsedBoards.append(boardId);
 				parseBoardIntoMap(name + "Sub" + boardId, os.path.dirname(file) + "/board_" + boardId + ".obf", True, lastLabel);
 				result.append("phrases" + name + "Sub" + boardId);
+		#TODO handle parsing sub board by path when id unavailable
 		if parsingSubBoard == True and "}," in line:
 			parsingSubBoard = False;
 			#print("no longer matching sub boards");

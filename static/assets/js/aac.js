@@ -210,6 +210,45 @@ function loadPhrases(phrases) {
 	} else {
 		loadPhrasesCollapse(phrases);
 	}
+
+	let phraseBlocks = document.getElementsByClassName('phraseCollapse');
+	for(let i = 0; i < phraseBlocks.length; i++) {
+		phraseBlocks[i].onclick =
+			function() {
+				let clickedId = this.id;
+				let parentId = this.parentElement.parentElement.id;
+				let phraseCollapses = document.getElementsByClassName('phraseCollapse');
+				//close other siblings on open
+				for(let x = 0; x < phraseCollapses.length; x++) {
+					if (phraseCollapses[x].id !== clickedId && phraseCollapses[x].parentElement.parentElement.id === parentId) {
+						phraseCollapses[x].checked = false;
+					}
+				}
+				if (this.checked) {
+					this.scrollIntoView();
+				} else {
+					//collapse all children on close
+					for(let x = 0; x < phraseCollapses.length; x++) {
+						if (this.parentElement.parentElement.contains(phraseCollapses[x])) {
+							phraseCollapses[x].checked = false;
+						}
+					}
+				}
+		}
+	}
+
+	let modals = document.getElementsByClassName('modal-close');
+	for(let i = 0; i < modals.length; i++) {
+		modals[i].onclick =
+			function() {
+				//collapse all children on dialog close
+				for(let x = 0; x < phraseBlocks.length; x++) {
+					if (this.parentElement.contains(phraseBlocks[x])) {
+						phraseBlocks[x].checked = false;
+					}
+				}
+		}
+	}
 }
 
 function loadPhrasesCollapse(phrases) {
@@ -223,25 +262,6 @@ function loadPhrasesCollapse(phrases) {
 		phrasesInner.appendChild(collapse);
 	}
 	document.getElementById("phrases").appendChild(phrasesInner);
-
-	let phraseBlocks = document.getElementsByClassName('phraseCollapse');
-	for(let i = 0; i < phraseBlocks.length; i++) {
-		phraseBlocks[i].onclick =
-			function() {
-				if(document.getElementById('boardAutoCollapse').checked && (this.checked || this.id === "collapse-phrases-common")) {
-					let clickedId = this.id;
-					let phraseBlocksInner = document.getElementsByClassName('phraseCollapse');
-					for(let i = 0; i < phraseBlocksInner.length; i++) {
-						if (phraseBlocksInner[i].id !== clickedId && phraseBlocksInner[i].id !== "collapse-phrases-common") {
-							phraseBlocksInner[i].checked = false;
-						}
-					}
-				}
-				if (this.checked) {
-					this.scrollIntoView();
-				}
-			}
-	}
 }
 
 function generateCollapse(name, id, content) {
@@ -262,6 +282,7 @@ function generateCollapse(name, id, content) {
 	collapseBlockLabel.htmlFor = "collapse-phrases-" + id;
 	collapseBlockLabel.ariaHidden = true;
 	collapseBlockLabel.innerText = getTranslatedText(name);
+
 	collapseBlock.appendChild(collapseBlockLabel);
 
 	let collapseBlockDiv = document.createElement('div');
@@ -302,13 +323,13 @@ function generateDialog(name, id, content, parent) {
 	//TODO handle escape keypress to close
 	let dialogToggleLabel = document.createElement('label');
 	dialogToggleLabel.htmlFor = "dialog-toggle-" + id;
-	dialogToggleLabel.className = "button primary";
+	dialogToggleLabel.className = "button inverse";
 	dialogToggleLabel.innerText = getTranslatedText(name);
 	parent.appendChild(dialogToggleLabel);
 
 	let dialogToggleCheckbox = document.createElement('input');
 	dialogToggleCheckbox.type = "checkbox";
-	dialogToggleCheckbox.className = "modal";
+	dialogToggleCheckbox.className = "modal modalToggle";
 	dialogToggleCheckbox.id = "dialog-toggle-" + id;
 	parent.appendChild(dialogToggleCheckbox);
 
@@ -488,6 +509,19 @@ document.addEventListener("DOMContentLoaded", function(event){
 		if (e.key === "Enter" || (e.key === " " && document.getElementById('speakSpace').checked)) {
 			speakFreeform();
 			document.getElementById('textInputFreeform').value = "";
+		}
+	});
+	document.addEventListener("keydown", function (e) {
+		if (e.key === "Escape") {
+			console.log("escape pressed, closing everything!");
+			let phraseBlocks = document.getElementsByClassName('phraseCollapse');
+			for(let i = 0; i < phraseBlocks.length; i++) {
+				phraseBlocks[i].checked = false;
+			}
+			let modalToggles = document.getElementsByClassName('modalToggle');
+			for(let i = 0; i < modalToggles.length; i++) {
+				modalToggles[i].checked = false;
+			}
 		}
 	});
 
