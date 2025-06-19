@@ -6,38 +6,23 @@
 		<meta name="theme-color" content="#0D47A1">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+		<link rel="manifest" href="/assets/aac.json">
 		<link rel="stylesheet" href="/assets/css/fira.css" integrity="sha384-qs2nxaQtWaoeQTWy2qEK+yb/3Yd56H3wS7l0unGiJG0O5MVvbVzIZgzdd0Q1iFFP">
-		<?php
-			$rel = 'rel="stylesheet"';
-			$prefersLight = 'media="screen and (prefers-color-scheme: light)"';
-			$prefersDark = 'media="screen and (prefers-color-scheme: dark)"';
-			$lightTheme = '<link rel="stylesheet" href="/assets/css/mini-default.min.css" integrity="sha384-grfnlbFNIiMDbCsJPG8vpNan6LXDYRloFcUlQIoW/t6XRE+tbZtlffNIRcIuq96o">' . PHP_EOL;
-			$darkTheme = '<link rel="stylesheet" href="/assets/css/mini-dark.min.css" integrity="sha384-Ea4sveuxxdZqzlfaDF0+BttWvyhbyRMMQzOVgvZH83dXvg0WNWa6AGdE07uI0VhC">' . PHP_EOL;
-			$splashCSS = '<link rel="stylesheet" href="/assets/css/splash.css" integrity="sha384-bsziM/NxFcfVc6g+HVUuXaQ6XPbGHp5VfZz/9EFiN2/UyGucz+EDcKiuXwShW9oX">' . PHP_EOL;
-			$splashCSSDark = '<link rel="stylesheet" href="/assets/css/splash-dark.css" integrity="sha384-hLyTTsR9ei/vDh2vyvGdCnNwoOkGtArPYhc8sbGYTUIRwtDGh0mnivOGnzvfyXuP">' . PHP_EOL;
-			$searchDark = '<link rel="stylesheet" href="/assets/css/search-dark.css" integrity="sha384-R2/RnRe/M2TBebdITZco9IErfWNrG9ik0VNZ4Ucqy492wY8Bd7xgoEbAC0kRhzps">' . PHP_EOL;
-
-			if($SBNR_GEN_DARKMODE_FORCED) {
-				print($darkTheme);
-				if($pageIsHome) { print($splashCSSDark); }
-				if($pageRaw === "search") { print($searchDark); }
-			} else if ($SBNR_GEN_DARKMODE_AUTO) {
-				print(str_replace($rel, $rel . ' ' . $prefersLight, $lightTheme));
-				print(str_replace($rel, $rel . ' ' . $prefersDark, $darkTheme));
-				if($pageIsHome) {
-					print(str_replace($rel, $rel . ' ' . $prefersLight, $splashCSS));
-					print(str_replace($rel, $rel . ' ' . $prefersDark, $splashCSSDark));
+		<link rel="stylesheet" href="/assets/css/mini-divested.min.css" integrity="sha384-wcVnJjAOgS71KnrBgop7mVhXyIdduDzqm9L8NQSIwzcFZ+TkeONKKHbYdWnTzAab">
+		<link rel="stylesheet" href="/assets/css/splash.css" integrity="sha384-YDI3Dv07cyNLn6nkvSAbjPCbl0w/3hcPz49Y/Ecmu8j3rChgomlgEHGCMF4/zfVQ">
+		<?php if($pageRaw === "search") : ?>
+		<style>
+			@media (prefers-color-scheme: dark) {
+				body {
+					--pagefind-ui-primary: #eeeeee;
+					--pagefind-ui-text: #eeeeee;
+					--pagefind-ui-background: #212121;
+					--pagefind-ui-border: #212121;
+					--pagefind-ui-tag: #212121;
 				}
-				if($pageRaw === "search") { print(str_replace($rel, $rel . ' ' . $prefersDark, $searchDark)); }
-			} else {
-				print($lightTheme);
-				if($pageIsHome) { print($splashCSS); }
 			}
-
-			if($pageRaw === "aac") {
-				print('<link rel="manifest" href="/assets/aac.json">' . PHP_EOL);
-                        }
-		?>
+		</style>
+		<?php endif; ?>
 		<style>
 		.h2o {
 			color: #2196F3;
