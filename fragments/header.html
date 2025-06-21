@@ -8,7 +8,9 @@
 		<link href="/images/favicon.png" rel="shortcut icon" type="image/png">
 		<link rel="stylesheet" href="/assets/css/fira.css" integrity="sha384-qs2nxaQtWaoeQTWy2qEK+yb/3Yd56H3wS7l0unGiJG0O5MVvbVzIZgzdd0Q1iFFP">
 		<link rel="stylesheet" href="/assets/css/mini-divested.min.css" integrity="sha384-wcVnJjAOgS71KnrBgop7mVhXyIdduDzqm9L8NQSIwzcFZ+TkeONKKHbYdWnTzAab">
+		<?php if($pageIsHome) : ?>
 		<link rel="stylesheet" href="/assets/css/splash.css" integrity="sha384-YDI3Dv07cyNLn6nkvSAbjPCbl0w/3hcPz49Y/Ecmu8j3rChgomlgEHGCMF4/zfVQ">
+		<?php endif; ?>
 		<?php if($pageRaw === "search") : ?>
 		<style>
 			@media (prefers-color-scheme: dark) {
