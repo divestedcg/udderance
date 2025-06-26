@@ -1,5 +1,10 @@
 {
   "name": "Udderance AAC",
+  "short_name": "Udderance",
+  "description": "Text-to-speech (TTS) based augmentative and alternative communication (AAC) app",
+  "id": "app.udderance",
+  "orientation": "any",
+  "theme_color": "#2196F3",
   "display": "standalone",
   "start_url": "https://udderance.app/pages/aac",
   "icons": [

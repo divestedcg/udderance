@@ -59,15 +59,19 @@
 						<br>
 						<label for="darkPictograms">Prefer dark skin pictograms: </label>
 						<input type="checkbox" name="darkPictograms" id="darkPictograms" onchange="handlePictogramToggle()">
-						<hr>
-						<label for="voice">Voice: </label>
-						<select name="voice" id="voice" onchange="updateVoice()"></select>
+						<div id="optionsVoice">
+							<hr>
+							<label for="voice" id="voiceLabel">Voice: </label>
+							<select name="voice" id="voice" onchange="updateVoice()"></select>
+						</div>
 						<div id="optionsSherpa">
 							<hr>
-							<p>Sherpa is available as an alternative to the system's native TTS backend. It requires a 110MB download (program + vits-piper-en_US-libritts_r-medium model). Longer prompts can be slow to generate. 904 voice variants are available.</p>
-							<label for="useSherpa">Use Sherpa: </label>
-							<input type="checkbox" name="useSherpa" id="useSherpa" onclick="handleSherpaToggle()">
-							<br>
+							<div id="optionsSherpaToggle">
+								<p>Sherpa is available as an alternative to the system's native TTS backend. It requires a 110MB download (program + vits-piper-en_US-libritts_r-medium model). Longer prompts can be slow to generate. 904 voice variants are available.</p>
+								<label for="useSherpa">Use Sherpa: </label>
+								<input type="checkbox" name="useSherpa" id="useSherpa" onclick="handleSherpaToggle()">
+								<br>
+							</div>
 							<label for="sherpaSpeakerID">Sherpa Speaker ID: </label>
 							<input type="number" name="sherpaSpeakerID" id="sherpaSpeakerID" min="0" max="904" value="0">
 							<br>

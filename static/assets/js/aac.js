@@ -533,11 +533,13 @@ document.addEventListener("DOMContentLoaded", function(event){
 		document.getElementById('aac_title').remove();
 	}
 
-	loadVoices();
-	if (!isSafari) {
-		window.speechSynthesis.onvoiceschanged = function(e) {
-			loadVoices();
-		};
+	if(window['speechSynthesis'] !== undefined) {
+		loadVoices();
+		if (!isSafari) {
+			window.speechSynthesis.onvoiceschanged = function(e) {
+				loadVoices();
+			};
+		}
 	}
 
 	loadBoardPresets();
@@ -562,5 +564,17 @@ document.addEventListener("DOMContentLoaded", function(event){
 	if (!wasmSupported || isSafari) {
 		document.getElementById('useSherpa').disabled = true;
 		document.getElementById('optionsSherpa').hidden = true;
+	}
+
+	if(window['speechSynthesis'] === undefined && wasmSupported && document.URL.startsWith("https://appassets.androidplatform.net/assets/")) {
+		document.getElementById('optionsVoice').hidden = true;
+		document.getElementById('useSherpa').checked = true;
+		document.getElementById('useSherpa').disabled = true;
+		document.getElementById('optionsSherpaToggle').hidden = true;
+		handleSherpaToggle();
+		//removeChildren(document.getElementById('real_header'), true); #TODO FIXME: gets cropped off wrongly
+		document.getElementById('real_footer').innerHTML = "<br><br><br><br>";
+		document.getElementById('install').remove();
+		document.getElementById('aac_title').remove();
 	}
 });
