@@ -16,7 +16,3 @@ rm output-android/pages/search.html;
 rm output-android/pages/terms_of_service.html;
 rm -rfv output-android/images/;
 rm -rfv output-android/pages/pagefind/;
-cd output-android;
-zip -r ../android-latest.zip .;
-cd ..;
-rm -rf output-android;
