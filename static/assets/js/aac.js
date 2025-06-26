@@ -120,6 +120,7 @@ let tts = null;
 let audioCtx = null;
 Module = {};
 let sherpaLoaded = false;
+const isAndroidWrapper = document.URL.startsWith("https://appassets.androidplatform.net/assets/");
 /* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/23522755 */
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 /* Credit (CC BY-SA 3.0): https://stackoverflow.com/a/47880734 */
@@ -165,8 +166,16 @@ function initSherpa() {
 	}
 }
 
+function speakTextAWrapper(text) {
+	var systemTTSRequest = new XMLHttpRequest();
+	systemTTSRequest.open("GET", "https://appassets.androidplatform.net/assets/speak?text=" + text, false);
+	systemTTSRequest.send();
+}
+
 function speakTextReal(textReal) {
-	if (document.getElementById('useSherpa').checked && sherpaLoaded) {
+	if (isAndroidWrapper) {
+		speakTextAWrapper(textReal);
+	} else if (document.getElementById('useSherpa').checked && sherpaLoaded) {
 		/* Credit (Apache-2.0): https://github.com/k2-fsa/sherpa-onnx/blob/master/wasm/tts/app-tts.js */
 		let speakerId = parseInt(document.getElementById('sherpaSpeakerID').value);
 		let speedSet = parseInt(document.getElementById('sherpaSpeed').value);
@@ -560,17 +569,13 @@ document.addEventListener("DOMContentLoaded", function(event){
 	//	document.getElementById('enablePictograms').disabled = true;
 	//}
 
-	if (!wasmSupported || isSafari) {
+	if (!wasmSupported || isSafari || isAndroidWrapper) {
 		document.getElementById('useSherpa').disabled = true;
 		document.getElementById('optionsSherpa').hidden = true;
 	}
 
-	if(window['speechSynthesis'] === undefined && wasmSupported && document.URL.startsWith("https://appassets.androidplatform.net/assets/")) {
+	if(isAndroidWrapper) {
 		document.getElementById('optionsVoice').hidden = true;
-		document.getElementById('useSherpa').checked = true;
-		document.getElementById('useSherpa').disabled = true;
-		document.getElementById('optionsSherpaToggle').hidden = true;
-		handleSherpaToggle();
 		//removeChildren(document.getElementById('real_header'), true); #TODO FIXME: gets cropped off wrongly
 		document.getElementById('real_footer').innerHTML = "<br><br><br><br>";
 		document.getElementById('install').remove();
