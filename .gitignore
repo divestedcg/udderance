@@ -1,3 +1,5 @@
 output
+output-android
+android-latest.zip
 static/assets/sherpa-onnx/
 static/assets/mulberry-symbols/
