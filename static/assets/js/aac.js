@@ -575,6 +575,7 @@ document.addEventListener("DOMContentLoaded", function(event){
 	}
 
 	if(isAndroidWrapper) {
+		document.getElementById('errorField').innerText = "";
 		document.getElementById('optionsVoice').hidden = true;
 		//removeChildren(document.getElementById('real_header'), true); #TODO FIXME: gets cropped off wrongly
 		document.getElementById('real_footer').innerHTML = "<br><br><br><br>";
