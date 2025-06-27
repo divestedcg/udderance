@@ -534,7 +534,7 @@ document.addEventListener("DOMContentLoaded", function(event){
 	});
 
 	/* Credit (CC BY-SA 4.0): https://stackoverflow.com/a/41749865 */
-	if (window.matchMedia('(display-mode: standalone)').matches) {
+	if (window.matchMedia('(display-mode: standalone)').matches || isAndroidWrapper) {
 		removeChildren(document.getElementById('real_header'), true);
 		removeChildren(document.getElementById('real_footer'), true);
 		document.getElementById('install').remove();
@@ -577,9 +577,5 @@ document.addEventListener("DOMContentLoaded", function(event){
 	if(isAndroidWrapper) {
 		document.getElementById('errorField').innerText = "";
 		document.getElementById('optionsVoice').hidden = true;
-		//removeChildren(document.getElementById('real_header'), true); #TODO FIXME: gets cropped off wrongly
-		document.getElementById('real_footer').innerHTML = "<br><br><br><br>";
-		document.getElementById('install').remove();
-		document.getElementById('aac_title').remove();
 	}
 });
