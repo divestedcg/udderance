@@ -7,15 +7,15 @@ Overview
 --------
 Udderance is a text-to-speech (TTS) based augmentative and alternative communication (AAC) app with a focus on simplicity and cross-platform usage.
 
-Usage via PWA
--------------
+Usage via Web or PWA
+--------------------
 Visit https://udderance.app/pages/aac
 
 Usage via Android wrapper
 -------------------------
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/app.udderance/)
+[<img src="https://f-droid.org/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/packages/app.udderance)
 
 Compiling
 ---------
