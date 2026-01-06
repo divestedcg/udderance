@@ -37,8 +37,9 @@ declare -a staticPages=("home" "privacy_policy" "search" "terms_of_service" "aac
 
 for page in "${staticPages[@]}"
 do
-	asmpage "$page" > "output/pages/$page.html";
+	asmpage "$page" > "output/pages/$page.html" &
 done;
+wait;
 
 #gzip -k output/pages/*.html output/assets/css/*.css output/assets/js/*.js;
 #brotli -k output/pages/*.html output/assets/css/*.css output/assets/js/*.js;
