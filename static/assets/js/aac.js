@@ -140,8 +140,8 @@ function initSherpa() {
 		/* Credit (Apache-2.0): https://github.com/k2-fsa/sherpa-onnx/blob/master/wasm/tts/app-tts.js */
 		document.getElementById('sherpaStatus').textContent = "Sherpa: Loading";
 
-		loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-tts.js", null, "sha384-jQ2b3D4yVK95zVtaAbg+TYEiiwMlNd6OjdnZIHxNdcHrrUtYVfCSrxCzy8Mya8c6");
-		loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.js", null, "sha384-r5eKGbzOuaHFCNIV75Y3K0pi791VsgksWJQx5cylNm2Y2GzjTND9hjrt28o2YVPx");
+		loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-tts.js", null, "sha384-24o+Zx2HK0AHM9dOBfj99SX2KDOiMhJD2SWjpHP6sYNjsw3xckR/+60EOuMRzZyy");
+		loadExternalJS("/assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.js", null, "sha384-0SvO55vDIxPiiOeYK/+7WOdHx+Q8UN4tfyGXsBndcv0MvWyyp6/JbZIgiHRs1ZS5");
 
 		Module.locateFile = function(path, scriptDirectory = '') {
 			console.log(`path: ${path}, scriptDirectory: ${scriptDirectory}`);

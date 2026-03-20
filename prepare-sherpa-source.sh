@@ -1,15 +1,19 @@
+#requires emscripten: https://emscripten.org/docs/getting_started/downloads.html
 #compile from source
 #https://k2-fsa.github.io/sherpa/onnx/tts/wasm/build.html
 git clone https://github.com/k2-fsa/sherpa-onnx
 cd sherpa-onnx
 cd wasm/tts/assets
-wget -q https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-libritts_r-medium.tar.bz2
-tar xf vits-piper-en_US-libritts_r-medium.tar.bz2
-rm vits-piper-en_US-libritts_r-medium.tar.bz2
-mv vits-piper-en_US-libritts_r-medium/en_US-libritts_r-medium.onnx ./model.onnx
-mv vits-piper-en_US-libritts_r-medium/tokens.txt ./
-mv vits-piper-en_US-libritts_r-medium/espeak-ng-data ./
-rm -rf vits-piper-en_US-libritts_r-medium
+modelTar="vits-piper-en_US-libritts_r-medium-int8.tar.bz2";
+model="vits-piper-en_US-libritts_r-medium-int8";
+modelReal="$model/en_US-libritts_r-medium.onnx";
+wget -q "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/$modelTar";
+tar xf "$modelTar";
+rm "$modelTar";
+mv "$modelReal" ./model.onnx
+mv "$model/tokens.txt" ./
+mv "$model/espeak-ng-data" ./
+rm -rf "$model";
 cd ../../..
 sed -i 's/-j2/-j$(nproc)/' build-wasm-simd-tts.sh
 ./build-wasm-simd-tts.sh

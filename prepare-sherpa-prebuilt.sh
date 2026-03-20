@@ -1,6 +1,6 @@
 #download prebuilt
 #https://github.com/k2-fsa/sherpa-onnx/releases
-wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.2/sherpa-onnx-wasm-simd-v1.12.2-en-tts.tar.bz2
+wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.19/sherpa-onnx-wasm-simd-v1.12.19-en-tts.tar.bz2
 tar xf sherpa-onnx-wasm-simd-v*-en-tts.tar.bz2
 
 #move into place
