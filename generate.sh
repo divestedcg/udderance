@@ -26,14 +26,7 @@ else
        alias asmpage='php assemble_pages.php';
 fi;
 
-#helper
-if command -v firejail &> /dev/null; then
-	alias fjnn='firejail --net=none';
-else
-	alias fjnn='';
-fi;
-
-declare -a staticPages=("home" "privacy_policy" "search" "terms_of_service" "aac");
+declare -a staticPages=("home" "privacy_policy"  "terms_of_service" "aac");
 
 for page in "${staticPages[@]}"
 do
@@ -41,8 +34,10 @@ do
 done;
 wait;
 
-#gzip -k output/pages/*.html output/assets/css/*.css output/assets/js/*.js;
-#brotli -k output/pages/*.html output/assets/css/*.css output/assets/js/*.js;
+#wait;
+#gzip --keep --best --suffix .pgz output/pages/*.html output/assets/css/*.css output/assets/js/*.js &
+#brotli --keep --best output/pages/*.html output/assets/css/*.css output/assets/js/*.js &
+#zstdmt --keep -19 output/pages/*.html output/assets/css/*.css output/assets/js/*.js &
 
 ln -sf pages/home.html output/index.html;
 ln -sf ../assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.data output/pages/sherpa-onnx-wasm-main-tts.data; #TODO remove this hack
@@ -50,9 +45,3 @@ ln -sf ../assets/sherpa-onnx/sherpa-onnx-wasm-main-tts.data output/pages/sherpa-
 #TODO check this against the available boards and strip out unused phrases
 cat translations/language_map_*.js > output/assets/js/aac_language_map_merged.js;
 cat boards/*.js > output/assets/js/aac_boards.js;
-
-if command -v pagefind &> /dev/null; then
-	fjnn pagefind --site output/pages;
-else
-	echo "pagefind is unavailable, not generating search index"
-fi;
